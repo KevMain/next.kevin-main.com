@@ -1,5 +1,7 @@
 # next.kevin-main.com
-New personal website
+Kevin Main's Personal Portfolio Website
+
+A modern, professional portfolio website showcasing Kevin Main's extensive experience as a Lead Developer and Senior Software Engineer.
 
 ## Project Structure
 
@@ -8,6 +10,20 @@ New personal website
 ├── frontend/               # Vue.js 3 Frontend
 └── start-dev.ps1           # PowerShell script to run both
 ```
+
+## Features
+
+- **Professional Portfolio**: Full CV/resume presentation
+- **Responsive Design**: Works beautifully on desktop, tablet, and mobile
+- **Modern UI**: Clean, professional gradient design with smooth scrolling
+- **API-Driven**: CV data served from .NET API for easy updates
+- **Sections Include**:
+  - Hero section with contact information
+  - Personal profile
+  - Key skills and tools
+  - Complete work experience timeline
+  - Education history
+  - Leisure activities
 
 ## Quick Start (Recommended)
 
@@ -23,6 +39,8 @@ This script will:
 - Start the Vue.js frontend on http://localhost:5173
 - Display output from both servers
 - Press `Ctrl+C` to stop both servers
+
+Then open **http://localhost:5173** in your browser to view the portfolio.
 
 ## Manual Setup & Run
 
@@ -64,7 +82,17 @@ This script will:
 
 ## API Endpoints
 
-- `GET http://localhost:5000/api/hello` - Returns a hello world message
+- `GET http://localhost:5000/api/cv` - Returns complete CV data in JSON format
+- `GET http://localhost:5000/api/hello` - Simple hello world endpoint
+
+## Updating CV Content
+
+To update your CV information, edit the data in:
+```
+KevinMain.API/Controllers/CVController.cs
+```
+
+The CV data is structured as a C# model and served as JSON. Simply update the values in the `Get()` method and restart the API.
 
 ## Tech Stack
 

@@ -23,7 +23,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowVueApp");
 
-app.UseHttpsRedirection();
+// Skip HTTPS redirection in development to avoid CORS issues
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
