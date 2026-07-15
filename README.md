@@ -13,17 +13,14 @@ A modern, professional portfolio website showcasing Kevin Main's extensive exper
 
 ## Features
 
-- **Professional Portfolio**: Full CV/resume presentation
+- **Professional Portfolio**: Modern personal website with customizable sections
+- **CV/Resume**: Complete professional CV with API-driven data
+- **Project Showcase**: Featured projects with descriptions and tech stacks
+- **Contact Form**: Functional email contact form with SMTP support
 - **Responsive Design**: Works beautifully on desktop, tablet, and mobile
-- **Modern UI**: Clean, professional gradient design with smooth scrolling
-- **API-Driven**: CV data served from .NET API for easy updates
-- **Sections Include**:
-  - Hero section with contact information
-  - Personal profile
-  - Key skills and tools
-  - Complete work experience timeline
-  - Education history
-  - Leisure activities
+- **Modern UI**: Clean, professional design with gradient effects and code-themed headers
+- **API-Driven**: Backend services for CV data and contact handling
+- **Service Architecture**: Abstracted services for easy swapping of implementations
 
 ## Quick Start (Recommended)
 
@@ -40,7 +37,13 @@ This script will:
 - Display output from both servers
 - Press `Ctrl+C` to stop both servers
 
-Then open **http://localhost:5173** in your browser to view the portfolio.
+Then open **http://localhost:5173** in your browser to view the live site.
+
+The site includes:
+- **Home**: Landing page with profile photo and introduction
+- **CV**: Complete professional CV and work history
+- **Projects**: Showcase of featured projects
+- **Contact**: Contact form for inquiries
 
 ## Manual Setup & Run
 
@@ -75,28 +78,77 @@ Then open **http://localhost:5173** in your browser to view the portfolio.
 
 ## Using the App
 
-1. Start the backend API first (http://localhost:5000)
-2. Start the frontend dev server (http://localhost:5173)
+1. Start both services using the `start-dev.ps1` script (recommended)
+2. Or manually start backend (http://localhost:5000) then frontend (http://localhost:5173)
 3. Open http://localhost:5173 in your browser
-4. Click "Get Message from API" to fetch data from the backend
+4. Navigate between Home, CV, Projects, and Contact pages
 
 ## API Endpoints
 
-- `GET http://localhost:5000/api/cv` - Returns complete CV data in JSON format
-- `GET http://localhost:5000/api/hello` - Simple hello world endpoint
+### CV Data
+- `GET /api/cv` - Returns complete CV data in JSON format
+- `GET /api/cv/health` - Health check endpoint
+
+### Contact
+- `POST /api/contact` - Submit contact form (requires Name, Email, Subject, Message)
+- `GET /api/contact/health` - Health check endpoint
+
+## Configuration
+
+### SMTP Settings (Optional)
+
+To enable email functionality for the contact form:
+
+1. Copy `appsettings.Development.json.example` to `appsettings.Development.json` (this file is gitignored)
+2. Update the SMTP settings:
+   ```json
+   {
+     "SmtpSettings": {
+       "Enabled": true,
+       "Host": "smtp.gmail.com",
+       "Port": 587,
+       "UseSsl": true,
+       "Username": "your-email@gmail.com",
+       "Password": "your-app-password",
+       "FromEmail": "your-email@gmail.com",
+       "FromName": "Kevin Main Portfolio",
+       "ToEmail": "your-email@gmail.com"
+     }
+   }
+   ```
+
+If SMTP is disabled, contact submissions are logged to the console instead.
 
 ## Updating CV Content
 
-To update your CV information, edit the data in:
+CV data is served by a service-based architecture for easy maintenance:
+
 ```
-KevinMain.API/Controllers/CVController.cs
+KevinMain.API/Services/InMemoryCVDataService.cs
 ```
 
-The CV data is structured as a C# model and served as JSON. Simply update the values in the `Get()` method and restart the API.
+To update your CV:
+1. Edit the data in `InMemoryCVDataService.cs`
+2. Restart the API server
+3. Changes will be reflected immediately
+
+The service pattern allows you to easily swap to a database or other data source by implementing the `ICVDataService` interface.
 
 ## Tech Stack
 
-- **Backend**: .NET 10, ASP.NET Core Web API
-- **Frontend**: Vue.js 3, Vite
-- **Communication**: REST API with CORS enabled
+### Backend
+- .NET 10
+- ASP.NET Core Web API
+- MailKit for SMTP email support
+- Service-based architecture with dependency injection
+
+### Frontend
+- Vue.js 3 with Composition API
+- Vue Router for navigation
+- Vite for dev server and building
+- Modern CSS with gradient effects
+
+### Communication
+- REST API with JSON
+- CORS enabled for local development
 
