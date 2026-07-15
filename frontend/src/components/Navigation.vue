@@ -2,7 +2,9 @@
   <nav class="main-nav">
     <div class="nav-container">
       <router-link to="/" class="nav-logo">
-        <span class="logo-text">Kevin<span class="logo-accent">.Main</span></span>
+        <span class="logo-bracket">&lt;</span>
+        <span class="logo-text">KM</span>
+        <span class="logo-bracket">/&gt;</span>
       </router-link>
 
       <div class="nav-links" :class="{ 'mobile-open': mobileMenuOpen }">
@@ -63,6 +65,20 @@ export default {
 .nav-logo {
   text-decoration: none;
   z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logo-bracket {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s;
 }
 
 .logo-text {
@@ -70,19 +86,18 @@ export default {
   font-size: 1.8rem;
   font-weight: 700;
   color: #e0e7ff;
-  letter-spacing: -1px;
+  letter-spacing: 1px;
   transition: all 0.3s;
 }
 
-.logo-accent {
-  background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.nav-logo:hover .logo-bracket {
+  text-shadow: 0 0 20px rgba(14, 165, 233, 0.8);
+  transform: scale(1.1);
 }
 
 .nav-logo:hover .logo-text {
-  text-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+  letter-spacing: 2px;
 }
 
 .nav-links {

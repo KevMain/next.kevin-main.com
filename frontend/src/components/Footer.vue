@@ -3,7 +3,11 @@
     <div class="footer-container">
       <div class="footer-content">
         <div class="footer-section">
-          <h3 class="footer-title">Kevin Main</h3>
+          <h3 class="footer-title">
+            <span class="footer-logo">
+              <span class="logo-bracket">&lt;</span>KM<span class="logo-bracket">/&gt;</span>
+            </span>
+          </h3>
           <p class="footer-text">
             Lead Developer & Software Engineer with 20+ years of experience in building 
             scalable, modern applications.
@@ -79,11 +83,22 @@ export default {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 2rem;
   font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+.footer-logo .logo-bracket {
   background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 10px;
+  font-weight: 700;
 }
 
 .footer-text {
