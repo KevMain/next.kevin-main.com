@@ -161,6 +161,8 @@ services.AddSmtp(options =>
 </template>
 
 <script>
+import config from '@/config.js'
+
 export default {
   name: 'Contact',
   data() {
@@ -184,7 +186,7 @@ export default {
       try {
         console.log('Submitting contact form...', this.form);
 
-        const response = await fetch('https://localhost:5001/api/contact', {
+        const response = await fetch(`${config.apiBaseUrl}/api/contact`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

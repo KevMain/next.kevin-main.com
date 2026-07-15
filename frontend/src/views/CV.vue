@@ -182,6 +182,8 @@ public async Task&lt;IActionResult&gt; Get()
 </template>
 
 <script>
+import config from '@/config.js'
+
 export default {
   name: 'CV',
   data() {
@@ -207,7 +209,7 @@ export default {
       try {
         this.loading = true;
         this.error = '';
-        const response = await fetch('https://localhost:5001/api/cv');
+        const response = await fetch(`${config.apiBaseUrl}/api/cv`);
 
         if (!response.ok) {
           throw new Error('Failed to load CV data');

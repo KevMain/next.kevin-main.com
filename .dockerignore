@@ -1,0 +1,72 @@
+# .dockerignore - Exclude files from Docker build context
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+LICENSE
+HTTPS-SETUP.md
+
+# IDE and Editor
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.swp
+*~
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+dist/
+out/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.coverage
+*.coveragexml
+
+# Frontend
+frontend/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local development
+appsettings.Development.json
+appsettings.*.local.json
+*.local.json
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Azure
+.azure/
+
+# Scripts
+start-dev.ps1
+*.ps1
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose*.yml

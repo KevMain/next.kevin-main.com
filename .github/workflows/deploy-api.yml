@@ -1,0 +1,69 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  AZURE_RESOURCE_GROUP: kevinmain-rg
+  CONTAINER_REGISTRY: kevinmainacr
+  CONTAINER_APP_NAME: kevinmain-api
+  IMAGE_NAME: kevinmain-api
+
+jobs:
+  build-and-deploy-api:
+    name: Build and Deploy API
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore KevinMain.API/KevinMain.API.csproj
+
+    - name: Build
+      run: dotnet build KevinMain.API/KevinMain.API.csproj --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test KevinMain.API/KevinMain.API.csproj --no-restore --verbosity normal
+
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.CONTAINER_REGISTRY }}.azurecr.io
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Build and push Docker image
+      run: |
+        docker build -f Dockerfile -t ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+        docker build -f Dockerfile -t ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:latest .
+        docker push ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        docker push ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+
+    - name: Deploy to Azure Container Apps
+      uses: azure/container-apps-deploy-action@v1
+      with:
+        resource-group: ${{ env.AZURE_RESOURCE_GROUP }}
+        containerAppName: ${{ env.CONTAINER_APP_NAME }}
+        imageToDeploy: ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+        registryUrl: ${{ env.CONTAINER_REGISTRY }}.azurecr.io
+        registryUsername: ${{ secrets.ACR_USERNAME }}
+        registryPassword: ${{ secrets.ACR_PASSWORD }}
+
+    - name: Azure logout
+      run: az logout
