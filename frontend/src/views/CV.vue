@@ -207,7 +207,7 @@ export default {
       try {
         this.loading = true;
         this.error = '';
-        const response = await fetch('http://localhost:5000/api/cv');
+        const response = await fetch('https://localhost:5001/api/cv');
 
         if (!response.ok) {
           throw new Error('Failed to load CV data');

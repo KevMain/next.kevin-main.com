@@ -32,18 +32,33 @@ A modern, professional portfolio website showcasing Kevin Main's extensive exper
 
 This script will:
 - Automatically install frontend dependencies (if needed)
-- Start the .NET API backend on http://localhost:5000
-- Start the Vue.js frontend on http://localhost:5173
+- Trust the .NET development certificate (if needed)
+- Start the .NET API backend on https://localhost:5001
+- Start the Vue.js frontend on https://localhost:5173
 - Display output from both servers
 - Press `Ctrl+C` to stop both servers
 
-Then open **http://localhost:5173** in your browser to view the live site.
+Then open **https://localhost:5173** in your browser to view the live site.
+
+**Note:** On first run, you may see browser security warnings about the self-signed certificates. This is normal for local development - click "Advanced" and "Proceed" to continue.
 
 The site includes:
 - **Home**: Landing page with profile photo and introduction
 - **CV**: Complete professional CV and work history
 - **Projects**: Showcase of featured projects
 - **Contact**: Contact form for inquiries
+
+## Prerequisites
+
+Before running the application, ensure you have:
+
+1. **.NET 10 SDK** - [Download here](https://dotnet.microsoft.com/download)
+2. **Node.js** (v18 or later) - [Download here](https://nodejs.org/)
+3. **Trusted development certificates**:
+   ```powershell
+   dotnet dev-certs https --trust
+   ```
+   This ensures your browser trusts the local HTTPS certificates.
 
 ## Manual Setup & Run
 
@@ -54,7 +69,12 @@ The site includes:
    cd KevinMain.API
    ```
 
-2. Run the API (defaults to http://localhost:5000):
+2. Trust the development certificate (first time only):
+   ```powershell
+   dotnet dev-certs https --trust
+   ```
+
+3. Run the API (defaults to https://localhost:5001):
    ```powershell
    dotnet run
    ```
@@ -71,7 +91,7 @@ The site includes:
    npm install
    ```
 
-3. Run the dev server (runs on http://localhost:5173):
+3. Run the dev server (runs on https://localhost:5173):
    ```powershell
    npm run dev
    ```
@@ -79,11 +99,15 @@ The site includes:
 ## Using the App
 
 1. Start both services using the `start-dev.ps1` script (recommended)
-2. Or manually start backend (http://localhost:5000) then frontend (http://localhost:5173)
-3. Open http://localhost:5173 in your browser
+2. Or manually start backend (https://localhost:5001) then frontend (https://localhost:5173)
+3. Open https://localhost:5173 in your browser
 4. Navigate between Home, CV, Projects, and Contact pages
 
+**Security Note:** You may see browser warnings about self-signed certificates on first visit. This is normal for local development. Click "Advanced" and proceed to the site.
+
 ## API Endpoints
+
+All API endpoints are served over HTTPS at `https://localhost:5001`
 
 ### CV Data
 - `GET /api/cv` - Returns complete CV data in JSON format

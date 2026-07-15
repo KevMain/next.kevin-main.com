@@ -44,19 +44,19 @@ if (-not (Test-Path $nodeModulesPath)) {
 }
 
 # Start Backend API
-Write-Host "Starting .NET API Backend (http://localhost:5000)..." -ForegroundColor Cyan
+Write-Host "Starting .NET API Backend (https://localhost:5001)..." -ForegroundColor Cyan
 $backendPath = Join-Path $rootDir "KevinMain.API"
 Start-Job -Name "Backend" -ScriptBlock {
 	param($path)
 	Set-Location $path
-	dotnet run --launch-profile http
+	dotnet run --launch-profile https
 } -ArgumentList $backendPath | Out-Null
 
 # Wait a moment for backend to start
 Start-Sleep -Seconds 2
 
 # Start Frontend
-Write-Host "Starting Vue.js Frontend (http://localhost:5173)..." -ForegroundColor Cyan
+Write-Host "Starting Vue.js Frontend (https://localhost:5173)..." -ForegroundColor Cyan
 Start-Job -Name "Frontend" -ScriptBlock {
 	param($path)
 	Set-Location $path
@@ -71,8 +71,8 @@ Write-Host "======================================" -ForegroundColor Green
 Write-Host "  Development Environment Ready!" -ForegroundColor Green
 Write-Host "======================================" -ForegroundColor Green
 Write-Host ""
-Write-Host "  Backend API:  http://localhost:5000" -ForegroundColor Cyan
-Write-Host "  Frontend:     http://localhost:5173" -ForegroundColor Cyan
+Write-Host "  Backend API:  https://localhost:5001" -ForegroundColor Cyan
+Write-Host "  Frontend:     https://localhost:5173" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Press Ctrl+C to stop all servers" -ForegroundColor Yellow
 Write-Host ""
