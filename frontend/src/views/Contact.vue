@@ -1,12 +1,47 @@
 <template>
   <div class="contact-page">
-    <!-- Header -->
-    <section class="contact-header">
+    <!-- Header with Code Background -->
+    <section class="contact-header hero">
+      <div class="hero-background">
+        <!-- Code snippets background -->
+        <div class="code-background">
+          <pre class="code-snippet code-snippet-1">
+const contact = {
+  email: "KevMain@gmail.com",
+  phone: "07739688271",
+  location: "Cheshire, UK"
+};</pre>
+          <pre class="code-snippet code-snippet-2">
+[HttpPost("contact")]
+public async Task SendMessage()
+{
+    await emailService.Send();
+    return Ok();
+}</pre>
+          <pre class="code-snippet code-snippet-3">
+await fetch('/api/contact', {
+  method: 'POST',
+  body: JSON.stringify(data)
+});</pre>
+          <pre class="code-snippet code-snippet-4">
+services.AddSmtp(options =>
+{
+    options.Host = "smtp.gmail.com";
+    options.Port = 587;
+});</pre>
+        </div>
+
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+      </div>
       <div class="container">
-        <h1 class="page-title">Get In Touch</h1>
-        <p class="page-subtitle">
-          Let's discuss your next project or opportunity. I'm always open to interesting conversations.
-        </p>
+        <div class="hero-content">
+          <h1 class="page-title">Get In Touch</h1>
+          <p class="page-subtitle">
+            Let's discuss your next project or opportunity. I'm always open to interesting conversations.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -214,71 +249,162 @@ export default {
   padding: 0 40px;
 }
 
-/* Header */
-.contact-header {
-  padding: 120px 40px 80px;
-  text-align: center;
-  background: 
-    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 70%),
-    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+/* Header with Code Background */
+.contact-header.hero {
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  color: white;
+  padding: 100px 20px 80px;
   position: relative;
   overflow: hidden;
 }
 
-.contact-header::before {
-  content: '';
+.hero-background {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: 
-    radial-gradient(circle, rgba(255,255,255,0.03) 2px, transparent 2px);
-  background-size: 50px 50px;
-  animation: gridMove 20s linear infinite;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 
-@keyframes gridMove {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 50px); }
+/* Code Background */
+.code-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.code-snippet {
+  position: absolute;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(14, 165, 233, 0.3);
+  white-space: pre;
+  pointer-events: none;
+}
+
+.code-snippet-1 {
+  top: 10%;
+  left: 5%;
+  transform: rotate(-2deg);
+}
+
+.code-snippet-2 {
+  top: 15%;
+  right: 8%;
+  transform: rotate(3deg);
+  color: rgba(168, 85, 247, 0.3);
+}
+
+.code-snippet-3 {
+  bottom: 20%;
+  left: 8%;
+  transform: rotate(2deg);
+}
+
+.code-snippet-4 {
+  bottom: 15%;
+  right: 10%;
+  transform: rotate(-3deg);
+  color: rgba(0, 245, 255, 0.25);
+}
+
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, transparent 70%);
+  top: -200px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+  top: -150px;
+  right: -150px;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(0, 245, 255, 0.25) 0%, transparent 70%);
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: -14s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+.contact-header .container {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
 }
 
 .page-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 4.5rem;
+  font-size: 4rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
+  margin: 0;
+  letter-spacing: -2px;
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff 0%, #00f5ff 50%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 25px;
-  letter-spacing: -3px;
-  animation: fadeInUp 0.8s ease-out;
-  position: relative;
-  z-index: 1;
+  animation: gradient-shift 8s ease infinite;
+  background-size: 200% 200%;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  50% {
+    background-position: 100% 50%;
   }
 }
 
 .page-subtitle {
-  font-size: 1.4rem;
-  color: #94a3b8;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.8);
   max-width: 700px;
-  margin: 0 auto;
-  line-height: 1.8;
+  margin: 0;
+  line-height: 1.6;
   font-weight: 300;
-  animation: fadeInUp 0.8s ease-out 0.2s both;
-  position: relative;
-  z-index: 1;
 }
 
 /* Contact Section */

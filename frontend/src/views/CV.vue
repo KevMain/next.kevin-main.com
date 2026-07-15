@@ -12,6 +12,41 @@
       <!-- Hero Section -->
       <header class="hero">
         <div class="hero-background">
+          <!-- Code snippets background -->
+          <div class="code-background">
+            <pre class="code-snippet code-snippet-1">
+public class Developer {
+    public string Name => "Kevin Main";
+    public int Experience => 20;
+    public string[] Skills => new[] {
+        ".NET", "Azure", "Vue.js",
+        "React", "Microservices"
+    };
+}</pre>
+            <pre class="code-snippet code-snippet-2">
+const architect = {
+  async design() {
+    return await this
+      .analyze()
+      .plan()
+      .implement();
+  }
+};</pre>
+            <pre class="code-snippet code-snippet-3">
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();</pre>
+            <pre class="code-snippet code-snippet-4">
+[HttpGet]
+public async Task&lt;IActionResult&gt; Get()
+{
+    var result = await service.Execute();
+    return Ok(result);
+}</pre>
+          </div>
+
           <div class="gradient-orb orb-1"></div>
           <div class="gradient-orb orb-2"></div>
           <div class="gradient-orb orb-3"></div>
@@ -259,6 +294,51 @@ export default {
   right: 0;
   bottom: 0;
   overflow: hidden;
+}
+
+/* Code Background */
+.code-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.code-snippet {
+  position: absolute;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(14, 165, 233, 0.3);
+  white-space: pre;
+  pointer-events: none;
+}
+
+.code-snippet-1 {
+  top: 10%;
+  left: 5%;
+  transform: rotate(-2deg);
+}
+
+.code-snippet-2 {
+  top: 15%;
+  right: 8%;
+  transform: rotate(3deg);
+  color: rgba(168, 85, 247, 0.3);
+}
+
+.code-snippet-3 {
+  bottom: 20%;
+  left: 8%;
+  transform: rotate(2deg);
+}
+
+.code-snippet-4 {
+  bottom: 15%;
+  right: 10%;
+  transform: rotate(-3deg);
+  color: rgba(0, 245, 255, 0.25);
 }
 
 .gradient-orb {
