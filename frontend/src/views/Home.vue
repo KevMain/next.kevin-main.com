@@ -48,6 +48,14 @@ services.AddAutoMapper();</pre>
     <!-- Hero Section -->
     <section class="hero-home">
       <div class="hero-content">
+        <div class="profile-image-wrapper">
+          <img 
+            :src="profileImage" 
+            alt="Kevin Main" 
+            class="profile-image"
+            @error="handleImageError"
+          />
+        </div>
         <h1 class="hero-title">Kevin Main</h1>
         <p class="hero-subtitle">Lead Developer | Software Engineer | Tech Innovator</p>
         <p class="hero-description">
@@ -118,8 +126,28 @@ services.AddAutoMapper();</pre>
 </template>
 
 <script>
+// Import both images explicitly for Vite using relative paths
+import profilePhoto from '../assets/images/profile.jpg';
+import placeholderImage from '../assets/images/profile-placeholder.svg';
+
 export default {
-  name: 'Home'
+  name: 'Home',
+  data() {
+    return {
+      profileImage: profilePhoto,
+      fallbackImage: placeholderImage,
+      imageLoadError: false
+    }
+  },
+  methods: {
+    handleImageError(e) {
+      if (!this.imageLoadError) {
+        // First error - try fallback
+        this.imageLoadError = true;
+        e.target.src = this.fallbackImage;
+      }
+    }
+  }
 }
 </script>
 
@@ -232,6 +260,46 @@ export default {
   flex: 1;
   max-width: 700px;
   z-index: 1;
+  text-align: center;
+}
+
+/* Profile Image */
+.profile-image-wrapper {
+  margin: 0 auto 2rem;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  animation: float 6s ease-in-out infinite;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid transparent;
+  background: linear-gradient(135deg, #0ea5e9 0%, #a855f7 100%);
+  padding: 5px;
+  box-shadow: 
+    0 20px 60px rgba(14, 165, 233, 0.3),
+    0 0 40px rgba(168, 85, 247, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 25px 80px rgba(14, 165, 233, 0.4),
+    0 0 60px rgba(168, 85, 247, 0.3);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 .hero-title {
