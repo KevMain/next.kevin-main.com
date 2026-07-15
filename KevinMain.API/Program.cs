@@ -16,6 +16,11 @@ builder.Services.AddCors(options =>
 // e.g., builder.Services.AddScoped<ICVDataService, DatabaseCVDataService>();
 builder.Services.AddSingleton<ICVDataService, InMemoryCVDataService>();
 
+// Register contact form service
+// To switch to real email: Replace LoggingContactService with SmtpContactService or SendGridContactService
+// e.g., builder.Services.AddScoped<IContactService, SmtpContactService>();
+builder.Services.AddScoped<IContactService, LoggingContactService>();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

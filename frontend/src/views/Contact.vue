@@ -142,29 +142,54 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       this.isSubmitting = true;
       this.submitMessage = '';
 
-      // Simulate form submission (since we're keeping it simple)
-      setTimeout(() => {
-        this.submitSuccess = true;
-        this.submitMessage = 'Thank you for your message! I\'ll get back to you soon.';
+      try {
+        const response = await fetch('http://localhost:5000/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.form.name,
+            email: this.form.email,
+            subject: this.form.subject,
+            message: this.form.message
+          })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          this.submitSuccess = true;
+          this.submitMessage = result.message;
+
+          // Reset form on success
+          this.form = {
+            name: '',
+            email: '',
+            subject: '',
+            message: ''
+          };
+
+          // Clear message after 5 seconds
+          setTimeout(() => {
+            this.submitMessage = '';
+            this.submitSuccess = false;
+          }, 5000);
+        } else {
+          this.submitSuccess = false;
+          this.submitMessage = result.message || 'Failed to send message. Please try again.';
+        }
+      } catch (error) {
+        console.error('Error submitting contact form:', error);
+        this.submitSuccess = false;
+        this.submitMessage = 'An error occurred. Please try again later.';
+      } finally {
         this.isSubmitting = false;
-
-        // Reset form
-        this.form = {
-          name: '',
-          email: '',
-          subject: '',
-          message: ''
-        };
-
-        // Clear message after 5 seconds
-        setTimeout(() => {
-          this.submitMessage = '';
-        }, 5000);
-      }, 1500);
+      }
     }
   }
 }
