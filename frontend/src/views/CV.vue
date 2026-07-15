@@ -9,55 +9,42 @@
     </div>
 
     <div v-else class="cv-content">
-      <!-- Hero Section with MacBook Code Display -->
+      <!-- Hero Section -->
       <header class="hero">
+        <div class="hero-background">
+          <div class="gradient-orb orb-1"></div>
+          <div class="gradient-orb orb-2"></div>
+          <div class="gradient-orb orb-3"></div>
+        </div>
         <div class="container">
           <div class="hero-content">
-            <div class="hero-text">
-              <h1 class="name">{{ cvData.personalInfo.name }}</h1>
-              <p class="title">{{ cvData.personalInfo.title }}</p>
-              <div class="contact-info">
-                <a :href="`mailto:${cvData.personalInfo.email}`" class="contact-link">
-                  <span class="icon">✉</span> {{ cvData.personalInfo.email }}
-                </a>
-                <span class="contact-item">
-                  <span class="icon">📱</span> {{ cvData.personalInfo.phone }}
-                </span>
-                <span class="contact-item">
-                  <span class="icon">📍</span> {{ cvData.personalInfo.location }}
-                </span>
-              </div>
-            </div>
+            <div class="hero-badge">Available for Hire</div>
+            <h1 class="name">{{ cvData.personalInfo.name }}</h1>
+            <h2 class="role">{{ cvData.personalInfo.title }}</h2>
+            <p class="tagline">Optimizationeer. Abstractionist. Algorithmist. Recursionist</p>
 
-            <!-- MacBook Code Display -->
-            <div class="macbook">
-              <div class="macbook-screen">
-                <div class="window-header">
-                  <div class="window-buttons">
-                    <span class="btn btn-close"></span>
-                    <span class="btn btn-minimize"></span>
-                    <span class="btn btn-maximize"></span>
-                  </div>
-                  <div class="window-title">KevinMain.cs</div>
-                </div>
-                <div class="code-editor">
-                  <pre class="code"><span class="line-number">1</span><span class="keyword">public class</span> <span class="class-name">KevinMain</span> <span class="bracket">{</span>
-<span class="line-number">2</span>    <span class="keyword">private readonly</span> <span class="type">IEnumerable</span>&lt;<span class="type">Skill</span>&gt; <span class="variable">_expertise</span>;
-<span class="line-number">3</span>    
-<span class="line-number">4</span>    <span class="keyword">public</span> <span class="class-name">KevinMain</span>() <span class="bracket">{</span>
-<span class="line-number">5</span>        <span class="variable">_expertise</span> = <span class="keyword">new</span>[] <span class="bracket">{</span>
-<span class="line-number">6</span>            <span class="string">"Technical Leadership"</span>,
-<span class="line-number">7</span>            <span class="string">".NET & Azure"</span>,
-<span class="line-number">8</span>            <span class="string">"Microservices Architecture"</span>
-<span class="line-number">9</span>        <span class="bracket">}</span>;
-<span class="line-number">10</span>   <span class="bracket">}</span>
-<span class="line-number">11</span>   
-<span class="line-number">12</span>   <span class="keyword">public async</span> <span class="type">Task</span>&lt;<span class="type">Result</span>&gt; <span class="method">DeliverValue</span>()
-<span class="line-number">13</span>       =&gt; <span class="keyword">await</span> <span class="method">Mentor</span>().<span class="method">Architect</span>().<span class="method">Code</span>();
-<span class="line-number">14</span><span class="bracket">}</span></pre>
-                </div>
+            <div class="contact-grid">
+              <a :href="`mailto:${cvData.personalInfo.email}`" class="contact-item">
+                <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ cvData.personalInfo.email }}</span>
+              </a>
+
+              <div class="contact-item">
+                <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 5C3 3.89543 3.89543 3 5 3H8.27924C8.70967 3 9.09181 3.27543 9.22792 3.68377L10.7257 8.17721C10.8831 8.64932 10.6694 9.16531 10.2243 9.38787L7.96701 10.5165C9.06925 12.9612 11.0388 14.9308 13.4835 16.033L14.6121 13.7757C14.8347 13.3306 15.3507 13.1169 15.8228 13.2743L20.3162 14.7721C20.7246 14.9082 21 15.2903 21 15.7208V19C21 20.1046 20.1046 21 19 21H18C9.71573 21 3 14.2843 3 6V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ cvData.personalInfo.phone }}</span>
               </div>
-              <div class="macbook-base"></div>
+
+              <div class="contact-item">
+                <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
+                  <path d="M17.657 16.657L13.414 20.9C13.039 21.275 12.5306 21.4854 12 21.4854C11.4694 21.4854 10.961 21.275 10.586 20.9L6.343 16.657C5.22422 15.5381 4.46234 14.1127 4.15369 12.5608C3.84504 11.009 4.00349 9.40047 4.60901 7.93868C5.21452 6.4769 6.2399 5.22749 7.55548 4.34846C8.87107 3.46943 10.4178 3.00024 12 3.00024C13.5822 3.00024 15.1289 3.46943 16.4445 4.34846C17.7601 5.22749 18.7855 6.4769 19.391 7.93868C19.9965 9.40047 20.155 11.009 19.8463 12.5608C19.5377 14.1127 18.7758 15.5381 17.657 16.657Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>{{ cvData.personalInfo.location }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -256,243 +243,188 @@ export default {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* Hero Section */
+/* Hero Section - Clean Minimal Style */
 .hero {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
   color: white;
-  padding: 80px 20px;
+  padding: 100px 20px 80px;
   position: relative;
   overflow: hidden;
 }
 
-.hero::before {
-  content: '';
+.hero-background {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 2px, transparent 2px);
-  background-size: 50px 50px;
-  animation: gridMove 20s linear infinite;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
 }
 
-@keyframes gridMove {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(50px, 50px); }
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+  animation: float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.4) 0%, transparent 70%);
+  top: -200px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
+  top: -150px;
+  right: -150px;
+  animation-delay: -7s;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(0, 245, 255, 0.25) 0%, transparent 70%);
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: -14s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
 }
 
 .hero .container {
   position: relative;
   z-index: 1;
-  max-width: 1400px;
+  max-width: 900px;
 }
 
 .hero-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 20px;
+  text-align: center;
 }
 
-.hero-text {
-  text-align: left;
+.hero-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(168, 85, 247, 0.2));
+  border: 1px solid rgba(14, 165, 233, 0.4);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #00f5ff;
+  backdrop-filter: blur(10px);
+  animation: pulse-badge 3s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.6);
+  }
 }
 
 .name {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 4rem;
   font-weight: 700;
-  margin-bottom: 15px;
-  text-shadow: 0 0 40px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.3);
+  margin: 0;
   letter-spacing: -2px;
-  background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff 0%, #00f5ff 50%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: gradient-shift 8s ease infinite;
+  background-size: 200% 200%;
 }
 
-.title {
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.role {
   font-size: 1.5rem;
   font-weight: 300;
-  margin-bottom: 40px;
-  opacity: 0.95;
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: 0.5px;
 }
 
-.contact-info {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 15px;
-  font-size: 0.95rem;
+.tagline {
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin: 10px 0 30px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px;
+  font-style: italic;
+  max-width: 700px;
 }
 
-.contact-link, .contact-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: white;
-  text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  padding: 10px 20px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.2);
-  font-weight: 500;
-}
-
-.contact-link:hover {
-  background: rgba(255,255,255,0.25);
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  border-color: rgba(255,255,255,0.4);
-}
-
-.icon {
-  font-size: 1.2rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-
-/* MacBook Display */
-.macbook {
-  perspective: 1000px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.macbook-screen {
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
   width: 100%;
-  max-width: 500px;
-  background: #1e293b;
-  border-radius: 12px 12px 0 0;
-  box-shadow: 
-    0 20px 60px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,255,255,0.1);
-  border: 8px solid #1a1a1a;
-  border-bottom: none;
-  overflow: hidden;
-  animation: floatMacbook 6s ease-in-out infinite;
+  max-width: 850px;
+  margin-top: 20px;
 }
 
-@keyframes floatMacbook {
-  0%, 100% { transform: translateY(0px) rotateX(5deg); }
-  50% { transform: translateY(-10px) rotateX(5deg); }
-}
-
-.window-header {
-  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-  padding: 12px 16px;
+.contact-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.95rem;
 }
 
-.window-buttons {
-  display: flex;
-  gap: 8px;
+.contact-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(14, 165, 233, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.2);
 }
 
-.btn {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.btn-close {
-  background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
-}
-
-.btn-minimize {
-  background: linear-gradient(135deg, #ffbd2e 0%, #ffa500 100%);
-}
-
-.btn-maximize {
-  background: linear-gradient(135deg, #28c840 0%, #00d084 100%);
-}
-
-.btn:hover {
-  opacity: 0.8;
-}
-
-.window-title {
-  color: #94a3b8;
-  font-size: 0.85rem;
-  font-weight: 500;
-  font-family: 'Fira Code', monospace;
-  flex: 1;
-  text-align: center;
-  margin-right: 60px;
-}
-
-.code-editor {
-  background: #0f172a;
-  padding: 20px;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  overflow-x: auto;
-  min-height: 280px;
-}
-
-.code {
-  color: #e2e8f0;
-  display: block;
-}
-
-.line-number {
-  display: inline-block;
-  width: 30px;
-  color: #475569;
-  user-select: none;
-  text-align: right;
-  margin-right: 20px;
-}
-
-.keyword {
-  color: #c792ea;
-  font-weight: 600;
-}
-
-.class-name {
-  color: #82aaff;
-  font-weight: 600;
-}
-
-.type {
-  color: #ffcb6b;
-}
-
-.variable {
-  color: #89ddff;
-}
-
-.string {
-  color: #c3e88d;
-}
-
-.method {
-  color: #82aaff;
-}
-
-.bracket {
-  color: #89ddff;
-  font-weight: 600;
-}
-
-.macbook-base {
-  width: 110%;
-  max-width: 550px;
-  height: 8px;
-  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+.contact-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #00f5ff;
 }
 
 /* Sub Navigation */
@@ -941,46 +873,50 @@ export default {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .hero-text {
-    text-align: center;
+  .hero {
+    padding: 60px 20px 50px;
   }
 
   .name {
     font-size: 2.5rem;
+    letter-spacing: -1px;
   }
 
-  .title {
+  .role {
     font-size: 1.2rem;
   }
 
-  .hero {
-    padding: 60px 20px;
+  .tagline {
+    font-size: 1rem;
   }
 
-  .contact-info {
-    flex-direction: column;
+  .contact-grid {
+    grid-template-columns: 1fr;
     gap: 12px;
-    align-items: center;
   }
 
-  .macbook-screen {
-    max-width: 100%;
+  .contact-item {
+    padding: 14px 20px;
+    font-size: 0.9rem;
   }
 
-  .code-editor {
-    font-size: 0.7rem;
-    padding: 15px;
-    min-height: 240px;
+  .gradient-orb {
+    filter: blur(60px);
   }
 
-  .line-number {
-    width: 25px;
-    margin-right: 12px;
+  .orb-1 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .orb-2 {
+    width: 350px;
+    height: 350px;
+  }
+
+  .orb-3 {
+    width: 250px;
+    height: 250px;
   }
 
   .sub-nav .container {

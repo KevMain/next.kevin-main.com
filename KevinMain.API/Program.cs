@@ -1,3 +1,5 @@
+using KevinMain.API.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +10,11 @@ builder.Services.AddCors(options =>
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
+
+// Register CV data service
+// To switch to database: Replace InMemoryCVDataService with DatabaseCVDataService
+// e.g., builder.Services.AddScoped<ICVDataService, DatabaseCVDataService>();
+builder.Services.AddSingleton<ICVDataService, InMemoryCVDataService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
