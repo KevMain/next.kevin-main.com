@@ -9,21 +9,56 @@
     </div>
 
     <div v-else class="cv-content">
-      <!-- Hero Section -->
+      <!-- Hero Section with MacBook Code Display -->
       <header class="hero">
         <div class="container">
-          <h1 class="name">{{ cvData.personalInfo.name }}</h1>
-          <p class="title">{{ cvData.personalInfo.title }}</p>
-          <div class="contact-info">
-            <a :href="`mailto:${cvData.personalInfo.email}`" class="contact-link">
-              <span class="icon">✉</span> {{ cvData.personalInfo.email }}
-            </a>
-            <span class="contact-item">
-              <span class="icon">📱</span> {{ cvData.personalInfo.phone }}
-            </span>
-            <span class="contact-item">
-              <span class="icon">📍</span> {{ cvData.personalInfo.location }}
-            </span>
+          <div class="hero-content">
+            <div class="hero-text">
+              <h1 class="name">{{ cvData.personalInfo.name }}</h1>
+              <p class="title">{{ cvData.personalInfo.title }}</p>
+              <div class="contact-info">
+                <a :href="`mailto:${cvData.personalInfo.email}`" class="contact-link">
+                  <span class="icon">✉</span> {{ cvData.personalInfo.email }}
+                </a>
+                <span class="contact-item">
+                  <span class="icon">📱</span> {{ cvData.personalInfo.phone }}
+                </span>
+                <span class="contact-item">
+                  <span class="icon">📍</span> {{ cvData.personalInfo.location }}
+                </span>
+              </div>
+            </div>
+
+            <!-- MacBook Code Display -->
+            <div class="macbook">
+              <div class="macbook-screen">
+                <div class="window-header">
+                  <div class="window-buttons">
+                    <span class="btn btn-close"></span>
+                    <span class="btn btn-minimize"></span>
+                    <span class="btn btn-maximize"></span>
+                  </div>
+                  <div class="window-title">KevinMain.cs</div>
+                </div>
+                <div class="code-editor">
+                  <pre class="code"><span class="line-number">1</span><span class="keyword">public class</span> <span class="class-name">KevinMain</span> <span class="bracket">{</span>
+<span class="line-number">2</span>    <span class="keyword">private readonly</span> <span class="type">IEnumerable</span>&lt;<span class="type">Skill</span>&gt; <span class="variable">_expertise</span>;
+<span class="line-number">3</span>    
+<span class="line-number">4</span>    <span class="keyword">public</span> <span class="class-name">KevinMain</span>() <span class="bracket">{</span>
+<span class="line-number">5</span>        <span class="variable">_expertise</span> = <span class="keyword">new</span>[] <span class="bracket">{</span>
+<span class="line-number">6</span>            <span class="string">"Technical Leadership"</span>,
+<span class="line-number">7</span>            <span class="string">".NET & Azure"</span>,
+<span class="line-number">8</span>            <span class="string">"Microservices Architecture"</span>
+<span class="line-number">9</span>        <span class="bracket">}</span>;
+<span class="line-number">10</span>   <span class="bracket">}</span>
+<span class="line-number">11</span>   
+<span class="line-number">12</span>   <span class="keyword">public async</span> <span class="type">Task</span>&lt;<span class="type">Result</span>&gt; <span class="method">DeliverValue</span>()
+<span class="line-number">13</span>       =&gt; <span class="keyword">await</span> <span class="method">Mentor</span>().<span class="method">Architect</span>().<span class="method">Code</span>();
+<span class="line-number">14</span><span class="bracket">}</span></pre>
+                </div>
+              </div>
+              <div class="macbook-base"></div>
+            </div>
           </div>
         </div>
       </header>
@@ -223,10 +258,9 @@ export default {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
   color: white;
-  padding: 100px 20px 80px;
-  text-align: center;
+  padding: 80px 20px;
   position: relative;
   overflow: hidden;
 }
@@ -252,15 +286,27 @@ export default {
 .hero .container {
   position: relative;
   z-index: 1;
+  max-width: 1400px;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-text {
+  text-align: left;
 }
 
 .name {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 4.5rem;
+  font-size: 4rem;
   font-weight: 700;
   margin-bottom: 15px;
   text-shadow: 0 0 40px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.3);
-  letter-spacing: -3px;
+  letter-spacing: -2px;
   background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -268,29 +314,29 @@ export default {
 }
 
 .title {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   font-weight: 300;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   opacity: 0.95;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .contact-info {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 20px;
-  font-size: 1rem;
+  gap: 15px;
+  font-size: 0.95rem;
 }
 
 .contact-link, .contact-item {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   color: white;
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 12px;
   background: rgba(255,255,255,0.15);
   backdrop-filter: blur(20px);
@@ -300,14 +346,153 @@ export default {
 
 .contact-link:hover {
   background: rgba(255,255,255,0.25);
-  transform: translateY(-5px) scale(1.05);
+  transform: translateY(-3px) scale(1.05);
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   border-color: rgba(255,255,255,0.4);
 }
 
 .icon {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+/* MacBook Display */
+.macbook {
+  perspective: 1000px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.macbook-screen {
+  width: 100%;
+  max-width: 500px;
+  background: #1e293b;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  border: 8px solid #1a1a1a;
+  border-bottom: none;
+  overflow: hidden;
+  animation: floatMacbook 6s ease-in-out infinite;
+}
+
+@keyframes floatMacbook {
+  0%, 100% { transform: translateY(0px) rotateX(5deg); }
+  50% { transform: translateY(-10px) rotateX(5deg); }
+}
+
+.window-header {
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.window-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-close {
+  background: linear-gradient(135deg, #ff5f57 0%, #ff3b30 100%);
+}
+
+.btn-minimize {
+  background: linear-gradient(135deg, #ffbd2e 0%, #ffa500 100%);
+}
+
+.btn-maximize {
+  background: linear-gradient(135deg, #28c840 0%, #00d084 100%);
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.window-title {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: 'Fira Code', monospace;
+  flex: 1;
+  text-align: center;
+  margin-right: 60px;
+}
+
+.code-editor {
+  background: #0f172a;
+  padding: 20px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  min-height: 280px;
+}
+
+.code {
+  color: #e2e8f0;
+  display: block;
+}
+
+.line-number {
+  display: inline-block;
+  width: 30px;
+  color: #475569;
+  user-select: none;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.keyword {
+  color: #c792ea;
+  font-weight: 600;
+}
+
+.class-name {
+  color: #82aaff;
+  font-weight: 600;
+}
+
+.type {
+  color: #ffcb6b;
+}
+
+.variable {
+  color: #89ddff;
+}
+
+.string {
+  color: #c3e88d;
+}
+
+.method {
+  color: #82aaff;
+}
+
+.bracket {
+  color: #89ddff;
+  font-weight: 600;
+}
+
+.macbook-base {
+  width: 110%;
+  max-width: 550px;
+  height: 8px;
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
 /* Sub Navigation */
@@ -756,21 +941,46 @@ export default {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .hero-text {
+    text-align: center;
+  }
+
   .name {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 
   .title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .hero {
-    padding: 80px 20px 60px;
+    padding: 60px 20px;
   }
 
   .contact-info {
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .macbook-screen {
+    max-width: 100%;
+  }
+
+  .code-editor {
+    font-size: 0.7rem;
+    padding: 15px;
+    min-height: 240px;
+  }
+
+  .line-number {
+    width: 25px;
+    margin-right: 12px;
   }
 
   .sub-nav .container {

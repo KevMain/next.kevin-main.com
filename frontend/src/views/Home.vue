@@ -1,5 +1,50 @@
 <template>
   <div class="home">
+    <!-- Static Code Background -->
+    <div class="code-background">
+      <pre class="code-snippet code-snippet-1">
+public class Developer {
+    public string Name => "Kevin Main";
+    public int Experience => 20;
+    public string[] Skills => new[] {
+        ".NET", "Azure", "Vue.js",
+        "React", "Microservices"
+    };
+}</pre>
+      <pre class="code-snippet code-snippet-2">
+const architect = {
+  async design() {
+    return await this
+      .analyze()
+      .plan()
+      .implement();
+  }
+};</pre>
+      <pre class="code-snippet code-snippet-3">
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();</pre>
+      <pre class="code-snippet code-snippet-4">
+&lt;template&gt;
+  &lt;div class="app"&gt;
+    &lt;router-view /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</pre>
+      <pre class="code-snippet code-snippet-5">
+[HttpGet]
+public async Task&lt;IActionResult&gt; Get()
+{
+    var result = await service.Execute();
+    return Ok(result);
+}</pre>
+      <pre class="code-snippet code-snippet-6">
+services.AddScoped&lt;IService, Service&gt;();
+services.AddDbContext&lt;AppDbContext&gt;();
+services.AddAutoMapper();</pre>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero-home">
       <div class="hero-content">
@@ -81,6 +126,72 @@ export default {
 <style scoped>
 .home {
   min-height: 100vh;
+  position: relative;
+}
+
+/* Static Code Background */
+.code-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.code-snippet {
+  position: absolute;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #0ea5e9;
+  opacity: 0.6;
+  white-space: pre;
+  margin: 0;
+  text-shadow: 0 0 15px rgba(14, 165, 233, 0.6);
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.code-snippet-1 {
+  top: 10%;
+  left: 5%;
+  transform: rotate(-5deg);
+}
+
+.code-snippet-2 {
+  top: 15%;
+  right: 8%;
+  transform: rotate(3deg);
+}
+
+.code-snippet-3 {
+  top: 45%;
+  left: 3%;
+  transform: rotate(2deg);
+}
+
+.code-snippet-4 {
+  top: 50%;
+  right: 5%;
+  transform: rotate(-3deg);
+}
+
+.code-snippet-5 {
+  bottom: 15%;
+  left: 10%;
+  transform: rotate(4deg);
+}
+
+.code-snippet-6 {
+  bottom: 20%;
+  right: 7%;
+  transform: rotate(-2deg);
 }
 
 /* Hero Section */
@@ -92,8 +203,9 @@ export default {
   gap: 60px;
   padding: 100px 40px;
   position: relative;
+  z-index: 1;
   overflow: hidden;
-  background: 
+  background:
     radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
     radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
 }
@@ -297,6 +409,8 @@ export default {
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255,255,255,0.1);
   border-bottom: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  z-index: 1;
 }
 
 .stat-card {
@@ -339,6 +453,8 @@ export default {
   padding: 100px 40px;
   max-width: 1400px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .section-title {
