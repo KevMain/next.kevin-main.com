@@ -147,6 +147,8 @@ export default {
       this.submitMessage = '';
 
       try {
+        console.log('Submitting contact form...', this.form);
+
         const response = await fetch('http://localhost:5000/api/contact', {
           method: 'POST',
           headers: {
@@ -160,7 +162,11 @@ export default {
           })
         });
 
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+
         const result = await response.json();
+        console.log('Result:', result);
 
         if (response.ok && result.success) {
           this.submitSuccess = true;
@@ -182,6 +188,7 @@ export default {
         } else {
           this.submitSuccess = false;
           this.submitMessage = result.message || 'Failed to send message. Please try again.';
+          console.error('Submission failed:', result);
         }
       } catch (error) {
         console.error('Error submitting contact form:', error);
