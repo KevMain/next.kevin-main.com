@@ -49,7 +49,7 @@ $backendPath = Join-Path $rootDir "KevinMain.API"
 Start-Job -Name "Backend" -ScriptBlock {
 	param($path)
 	Set-Location $path
-	dotnet run
+	dotnet run --launch-profile http
 } -ArgumentList $backendPath | Out-Null
 
 # Wait a moment for backend to start
