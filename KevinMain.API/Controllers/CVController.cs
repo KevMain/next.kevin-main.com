@@ -15,68 +15,75 @@ public class CVController : ControllerBase
             PersonalInfo = new PersonalInfo
             {
                 Name = "Kevin Main",
-                Title = "Lead Developer / Senior Software Engineer",
+                Title = "Technical Lead | Principal Software Engineer | .NET & Azure",
                 Email = "KevMain@gmail.com",
-                Phone = "07739688271",
-                Location = "Northwich, Cheshire, UK"
+                Phone = "07739 688271",
+                Location = "Northwich, Cheshire"
             },
-            Profile = "With over 20 years of commercial experience across a variety of Microsoft platforms, I specialize in full-stack development using .NET and various front-end technologies like Angular and React. My expertise spans the entire software development lifecycle, from architecture and design to deployment, with a focus on delivering high-performance, scalable web applications. I have extensive experience in building modern, cloud-based applications, leveraging the power of Azure to enhance performance, scalability, and security.\n\nAs a team leader, I currently manage a group of five developers, overseeing the complete software development lifecycle from planning and architecture to deployment. I collaborate with product managers and stakeholders to define project scope, prioritize features, and ensure the timely delivery of solutions. My organizational skills allow me to work autonomously, while my leadership fosters a collaborative and efficient team environment.",
+            Profile = "Technical Lead with over 20 years of commercial experience delivering enterprise software across the Microsoft ecosystem. Currently leading a team of five engineers responsible for technical direction, architecture and delivery of a SaaS platform used by more than 1,500 schools and thousands of users. Equally comfortable defining architecture, mentoring engineers, collaborating with stakeholders and writing production code. Passionate about modernising legacy platforms, improving engineering practices and delivering measurable business value.\n\nI believe the role of a Technical Lead is to enable teams to deliver consistently through clear technical direction, mentoring, pragmatic decision-making and engineering excellence. I enjoy coaching developers, encouraging ownership, improving delivery practices and balancing long-term architectural goals with day-to-day business needs.",
             KeySkills = new List<string>
             {
-                ".NET Core, ASP.NET MVC",
-                "SOLID, DRY, TDD, IoC, CI and Dependency Injection",
-                "LINQ / Entity Framework / ORM",
-                "React, Angular, jQuery and TypeScript",
-                "Web technologies including XML, CSS, and HTML5",
-                "REST APIs and WCF web services",
-                "SQL, database architecture and performance as well as MongoDB",
-                "Some experience of C++ and Java"
+                "Leadership: Technical Leadership • Mentoring • Architecture • Stakeholder Management • Agile",
+                "Backend: C# • .NET • ASP.NET Core • REST APIs • Entity Framework • Dapper",
+                "Cloud: Azure • Azure DevOps • CI/CD",
+                "Frontend: React • Angular • TypeScript",
+                "Data: SQL Server • MongoDB • MySQL • Oracle"
             },
             Tools = new List<string>
             {
-                "Azure and cloud technologies",
-                "Visual Studio, Rider and VSCode",
-                "Git / TFS / SVN",
-                "NUnit / MS Test / xUnit",
-                "NHibernate / Dapper",
-                "SQL Server, MySQL and Oracle",
-                "Windows and OSX"
+                "20+ years commercial software development experience",
+                "Lead a team of five software engineers and have personally mentored two developers",
+                "Platform supports 1,500+ schools and thousands of end users",
+                "Converted parts of a monolith into independently deployable microservices",
+                "Championed an API-first architecture",
+                "Deployment frequency improved from every few weeks to several times each week",
+                "Reduced production defects by approximately 50%",
+                "Reduced feature delivery time by approximately 25%"
             },
             WorkExperience = new List<WorkExperience>
             {
                 new WorkExperience
                 {
                     Company = "iSAMS Independent Ltd",
-                    Position = "Lead Developer / Software Developer",
+                    Position = "Technical Lead (Lead Software Developer)",
                     StartDate = "Aug 2015",
                     EndDate = "Present",
-                    Location = "Northampton, UK",
-                    Description = "Key contributor and team lead in Agile development of enterprise-grade education software. Specialize in back-end development with ASP.NET (MVC/Web API) and C#, with full-stack capabilities across SQL Server, React, and Azure.",
+                    Location = "Remote",
+                    Description = "Lead technical delivery of a large education SaaS platform while remaining hands-on across architecture, cloud services and software engineering.",
                     Highlights = new List<string>
                     {
-                        "Led successful delivery of critical features and services across the full SDLC, collaborating with stakeholders and product teams to meet business goals",
-                        "Enforced SOLID principles, clean architecture and DDD. Used CI/CD (Azure DevOps), unit testing and code analysis",
-                        "Promoted to Lead Developer; mentor to junior developers, responsible for technical direction and code reviews as well as performance reviews",
-                        "Gained hands-on experience deploying and maintaining cloud-based solutions using Microsoft Azure services",
-                        "Contributed to the migration of legacy AngularJS front-end components to a modern React-based architecture",
-                        "Successfully modernized a legacy Classic ASP school registration system by integrating a new Polymer-based front end"
+                        "Leadership: Lead, mentor and performance-manage a team of five developers",
+                        "Leadership: Mentored two developers to strengthen technical capability and confidence",
+                        "Leadership: Work closely with Product Managers and stakeholders to shape technical strategy, prioritise work and align delivery with business goals",
+                        "Leadership: Lead technical design discussions, code reviews and engineering standards",
+                        "Architecture: Designed Azure-hosted services supporting more than 1,500 schools and thousands of users",
+                        "Architecture: Converted areas of a monolithic application into independently deployable microservices",
+                        "Architecture: Championed an API-first design approach to improve scalability and integration",
+                        "Architecture: Led migration from AngularJS to React",
+                        "Architecture: Modernised legacy Classic ASP systems while maintaining business continuity",
+                        "Architecture: Championed SOLID principles, clean architecture, automated testing and CI/CD",
+                        "Impact: Increased deployment frequency from every few weeks to several deployments per week",
+                        "Impact: Reduced production defects by approximately 50%",
+                        "Impact: Reduced delivery time by approximately 25%",
+                        "Impact: Delivered projects ranging from one-week enhancements to year-long strategic initiatives"
                     },
-                    TechStack = ".NET Framework / .NET Core, C#, ASP.NET MVC/Web API, Entity Framework, React, AngularJS, SQL Server, Azure, JavaScript, HTML/CSS, Git, Azure DevOps"
+                    TechStack = ".NET, C#, ASP.NET Core, Azure, React, Angular, SQL Server, Entity Framework, REST APIs, CI/CD, Azure DevOps"
                 },
                 new WorkExperience
                 {
                     Company = "Advanced Legal",
                     Position = "Senior Software Engineer",
-                    StartDate = "Sept 2014",
+                    StartDate = "Sep 2014",
                     EndDate = "Aug 2015",
                     Location = "Knutsford, UK",
-                    Description = "Worked in an Agile environment and followed practices such as pair programming, test driven development (TDD) and behaviour driven development to deliver updates and enhancements to an existing well adopted Legal software product.",
+                    Description = "Modernised a mature WPF application using SOLID, dependency injection, pair programming, TDD and BDD, improving maintainability and engineering quality.",
                     Highlights = new List<string>
                     {
-                        "Refactored ageing WPF code using more modern techniques such as SOLID principles, dependency injections and unit testing",
-                        "Produced a more maintainable and future proofed product"
+                        "Refactored ageing WPF code using SOLID principles and dependency injection",
+                        "Followed pair programming, TDD and BDD practices",
+                        "Produced a more maintainable and future-proof product"
                     },
-                    TechStack = ".NET, WPF, C#, SOLID, TDD, BDD"
+                    TechStack = ".NET, WPF, C#, SOLID, TDD, BDD, Dependency Injection"
                 },
                 new WorkExperience
                 {
@@ -85,11 +92,11 @@ public class CVController : ControllerBase
                     StartDate = "May 2014",
                     EndDate = "Aug 2014",
                     Location = "Golborne, UK",
-                    Description = "Responsible for developing interactive applications. Main achievement involved building a Stock Inventory system rolled out across 6 depots around the country.",
+                    Description = "Designed and delivered a nationwide stock management platform deployed across six UK depots with .NET Web APIs, Entity Framework Code First and iOS integration.",
                     Highlights = new List<string>
                     {
-                        "Built Stock Inventory system allowing tracking of stock at all times across 6 depots",
-                        "Developed .NET Web API called via custom iOS app using 3rd party barcode scanner",
+                        "Built Stock Inventory system allowing tracking of stock across 6 depots nationwide",
+                        "Developed .NET Web API called via custom iOS app using barcode scanner",
                         "Used SQL Server with EF Code First using migrations",
                         "Full system built using TDD from the ground up"
                     },
@@ -102,11 +109,11 @@ public class CVController : ControllerBase
                     StartDate = "Nov 2013",
                     EndDate = "Apr 2014",
                     Location = "Manchester, UK",
-                    Description = "Worked in a full agile based software house developing innovative healthcare solutions to be delivered into health organisations including the NHS.",
+                    Description = "Developed healthcare software for NHS organisations using Xamarin, JavaScript, NoSQL technologies and modern API-driven solutions.",
                     Highlights = new List<string>
                     {
-                        "Worked on a Microsoft Surface application using Xamarin which could also be ported to iPad/Android",
-                        "Used cutting edge technologies such as NoSQL database, Nancy API with heavy use of JavaScript (KnockoutJS, NodeJS)",
+                        "Worked on Microsoft Surface application using Xamarin (portable to iPad/Android)",
+                        "Used NoSQL database, Nancy API with heavy JavaScript (KnockoutJS, NodeJS)",
                         "Worked on user stories, bug fixing and architectural decisions"
                     },
                     TechStack = "Xamarin, NoSQL, Nancy API, JavaScript, KnockoutJS, NodeJS"
@@ -115,14 +122,14 @@ public class CVController : ControllerBase
                 {
                     Company = "AMEC",
                     Position = "Analyst Developer",
-                    StartDate = "Sept 2012",
-                    EndDate = "Nov 2013",
+                    StartDate = "Sep 2012",
+                    EndDate = "Aug 2013",
                     Location = "Knutsford, UK",
-                    Description = "Worked within the Global Business Systems team across the full project development lifecycle to deliver all Applications/Software to the business.",
+                    Description = "Delivered enterprise business applications using ASP.NET MVC, SQL Server and SharePoint while collaborating closely with business stakeholders.",
                     Highlights = new List<string>
                     {
                         "Analysed business needs and reached solutions acceptable to all stakeholders",
-                        "Worked with Microsoft technologies and development stack"
+                        "Delivered applications across the full project development lifecycle"
                     },
                     TechStack = "ASP.NET MVC, SQL Server, SharePoint"
                 },
@@ -130,10 +137,10 @@ public class CVController : ControllerBase
                 {
                     Company = "CC Electronics Europe",
                     Position = "Software Developer",
-                    StartDate = "July 2011",
-                    EndDate = "Aug 2012",
+                    StartDate = "Jul 2011",
+                    EndDate = "Jun 2012",
                     Location = "Winsford, UK",
-                    Description = "Managed all of the online systems for the company including an innovative quoting tool.",
+                    Description = "Designed business-critical quoting and workflow systems using ASP.NET MVC.",
                     Highlights = new List<string>
                     {
                         "Built innovative quoting tool in ASP.NET MVC",
@@ -144,28 +151,58 @@ public class CVController : ControllerBase
                 new WorkExperience
                 {
                     Company = "Human-eCreative",
-                    Position = "Senior Programmer/Developer",
+                    Position = "Senior Developer",
                     StartDate = "May 2006",
-                    EndDate = "June 2011",
+                    EndDate = "Aug 2011",
                     Location = "Knutsford, UK",
-                    Description = "Built web sites mainly using ASP.NET. Worked on a variety of multi-tiered projects including some large web applications.",
+                    Description = "Delivered enterprise web applications, SharePoint solutions and accessibility improvements for a wide range of clients.",
                     Highlights = new List<string>
                     {
-                        "Worked on static HTML websites and converted existing sites to make accessible and cross browser compliant",
-                        "Exposed to Microsoft SharePoint products and performed many custom modifications using .NET",
-                        "Worked on a social networking site using .NET AJAX components and jQuery libraries"
+                        "Built web applications and converted sites to be accessible and cross browser compliant",
+                        "Performed custom SharePoint modifications using .NET",
+                        "Worked on social networking site using .NET AJAX and jQuery"
                     },
                     TechStack = "ASP.NET, SharePoint, .NET AJAX, jQuery, HTML, CSS"
+                },
+                new WorkExperience
+                {
+                    Company = "Easy Computers",
+                    Position = "Software Developer",
+                    StartDate = "Apr 2005",
+                    EndDate = "May 2006",
+                    Location = "Lowestoft, UK",
+                    Description = "Developed business automation software including an automated customer notification system that reduced support calls by around 20%.",
+                    Highlights = new List<string>
+                    {
+                        "Built automated customer notification system reducing support calls by ~20%",
+                        "Developed business process automation tools"
+                    },
+                    TechStack = "ASP.NET, VB.NET, SQL Server"
+                },
+                new WorkExperience
+                {
+                    Company = "3T Productions",
+                    Position = "Web Developer",
+                    StartDate = "Jun 2003",
+                    EndDate = "Aug 2004",
+                    Location = "Lowestoft, UK",
+                    Description = "Built dynamic education and government websites using ASP.",
+                    Highlights = new List<string>
+                    {
+                        "Developed dynamic websites for education and government sectors",
+                        "Used Classic ASP and early web technologies"
+                    },
+                    TechStack = "Classic ASP, JavaScript, HTML, CSS"
                 }
             },
             Education = new Education
             {
                 Higher = new HigherEducation
                 {
-                    University = "University Of Huddersfield",
+                    University = "University of Huddersfield",
                     Course = "Interactive Multimedia",
-                    Grade = "2-1 (BA Hons)",
-                    Dates = "10/01 - 05/05"
+                    Grade = "2:1 (BA Hons)",
+                    Dates = "2001 - 2005"
                 },
                 Secondary = new List<SecondaryEducation>
                 {
@@ -173,19 +210,12 @@ public class CVController : ControllerBase
                     {
                         Institution = "Lowestoft College",
                         Qualification = "BTEC National Diploma - Computer Studies",
-                        Grade = "3 Distinctions, 1 Merit",
-                        Date = "7/99"
-                    },
-                    new SecondaryEducation
-                    {
-                        Institution = "Benjamin Britten High School",
-                        Qualification = "GCSE",
-                        Grade = "8 A-C grades",
-                        Date = "7/97"
+                        Grade = "Merit/Distinction",
+                        Date = "1999"
                     }
                 }
             },
-            LeisureActivities = "I am a dedicated runner with a strong passion for fitness. I have completed many races, including the London Marathon, and continually strive to improve my personal bests. My commitment to fitness extends beyond running; I actively engage in a variety of training routines to enhance strength, mobility, and endurance.\n\nIn addition to my athletic pursuits, I stay informed on the latest trends and advancements in fitness and wellness, blending my love for fitness with my interest in science. I am an active participant in the tech community, attending events such as DDD and Umbraco meetups to network with industry professionals and stay up to date on emerging technologies.\n\nIn my spare time, I am passionate about hands-on development and have built several projects to continuously improve my technical skills. Currently, I am refactoring a large, legacy WebForms application, transitioning it to a modern architecture."
+            LeisureActivities = "Outside of work I'm passionate about continuous improvement, whether that's training for endurance events, studying software architecture or experimenting with new technologies. I've completed the London Marathon and regularly compete in running events. I attend DDD and Umbraco community events and maintain personal projects focused on modernising legacy applications using contemporary architectural patterns."
         };
 
         return Ok(cvData);
