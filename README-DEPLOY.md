@@ -1,71 +1,59 @@
-# 🚀 Azure Deployment - Ready to Go!
+# 🚀 Production Deployment - Kevin Main Portfolio
 
-## ✅ What's Been Prepared
+## ✅ Live URLs
 
-Your portfolio site is now **fully configured** for Azure deployment with database support!
+Your site is **live and deployed** on Azure! 🎉
 
-### 📦 Files Created
+- **Website**: https://lemon-flower-011704103.7.azurestaticapps.net
+- **API**: https://kevinmain-api.kindpond-04a3181a.ukwest.azurecontainerapps.io
 
-#### Configuration Files
-- ✅ `Dockerfile` - Container image for .NET API
-- ✅ `.dockerignore` - Optimized Docker builds
-- ✅ `KevinMain.API/appsettings.Production.json` - Production configuration
-- ✅ `frontend/config.js` - Environment-based API URLs
-- ✅ `frontend/.env.development` - Local API configuration
-- ✅ `frontend/.env.production` - Production API configuration
-- ✅ `frontend/staticwebapp.config.json` - Azure Static Web Apps routing & security headers
+## 🏗️ What's Deployed
 
-#### CI/CD
-- ✅ `.github/workflows/deploy-api.yml` - Automated API deployment
+### Frontend (Azure Static Web Apps - FREE)
+- Vue.js SPA
+- Global CDN
+- Automatic HTTPS/SSL
+- Auto-deploy on Git push
 
-#### Documentation
-- ✅ `QUICK-FIX-UKWEST.md` - **START HERE!** Copy-paste commands for UK West
-- ✅ `AZURE-REGIONS.md` - Region guide (UK South not working, use UK West)
-- ✅ `AZURE-DEPLOYMENT.md` - Complete step-by-step Azure setup (SQL, Container Apps, Static Web Apps)
-- ✅ `DATABASE-SETUP.md` - Entity Framework Core, migrations, models, seeding
-- ✅ `CI-CD-SETUP.md` - GitHub Actions, service principals, secrets, monitoring
-- ✅ `CUSTOM-DOMAIN.md` - Custom domain setup, DNS, SSL certificates
-- ✅ `DEPLOYMENT-SUMMARY.md` - Quick reference and cost breakdown
-- ✅ `README-DEPLOY.md` - This file!
+### Backend (Azure Container Apps - $15-30/mo)
+- .NET 10 API in Docker container
+- Auto-scaling (scales to zero when idle)
+- HTTPS endpoints
+- Auto-deploy on Git push
 
----
+### Data Storage (Currently In-Memory - FREE)
+- CV data served from InMemoryCVDataService
+- Future: Will migrate to Azure SQL Database
 
-## 💰 Cost Summary
+## 💰 Current Monthly Cost
 
-| Service | Monthly Cost |
-|---------|-------------|
-| Frontend (Static Web Apps) | **FREE** |
-| Backend API (Container Apps) | **$15-30** |
-| Database (Azure SQL Free tier) | **FREE** |
-| Container Registry | **$5** |
+| Service | Cost |
+|---------|------|
+| Frontend (Static Web Apps) | **$0** (Free tier) |
+| Backend (Container Apps) | **$15-30** (scales to zero) |
+| Container Registry | **$5** (Basic tier) |
 | **TOTAL** | **$20-35/month** |
 
-**💡 Pro Tip**: Use Azure SQL free tier and scale Container Apps to zero when idle to get costs down to **$10-15/month**!
+## 🔄 How Deployment Works
 
----
+### Automatic CI/CD via GitHub Actions
 
-## 🎯 Next Steps
+Every push to `main` branch triggers:
 
-### ⚠️ Important: Region Issue
-**UK South is NOT accepting new SQL Servers.** Use **UK West** instead.
+1. **Backend Deployment** (`.github/workflows/deploy-api.yml`):
+   - Build .NET project
+   - Run tests
+   - Build Docker image
+   - Push to Azure Container Registry
+   - Deploy to Container Apps
+   - Takes ~3-5 minutes
 
-👉 **See `QUICK-FIX-UKWEST.md` for updated copy-paste commands!**
+2. **Frontend Deployment** (auto-generated workflow):
+   - Build Vue.js app
+   - Deploy to Static Web Apps
+   - Takes ~2-3 minutes
 
-### 1. Prerequisites (5 min)
-
-Install Azure CLI (if not already installed):
-```bash
-winget install Microsoft.AzureCLI
-az login
-```
-
-### 2. Deploy to Azure (30 min)
-
-**Quick Path**: Follow **QUICK-FIX-UKWEST.md** for copy-paste commands
-
-OR
-
-Follow the **Quick Start** in `DEPLOYMENT-SUMMARY.md` (update region to `ukwest`):
+**To deploy changes**: Just `git push origin main` - that's it! 🚀
 
 ```bash
 # Step 1: Create Azure resources (10 min)
@@ -79,87 +67,110 @@ Follow the **Quick Start** in `DEPLOYMENT-SUMMARY.md` (update region to `ukwest`
 Follow `DATABASE-SETUP.md` to:
 - Add Entity Framework Core
 - Create database models
-- Run migrations
-- Seed CV data
 
-### 4. Configure CI/CD (15 min)
+## 📚 Available Documentation
 
-Follow `CI-CD-SETUP.md` to:
-- Create Azure service principal
-- Add GitHub secrets
-- Enable automatic deployments
+- **README.md** - Local development setup
+- **README-DEPLOY.md** (this file) - Production deployment info
+- **HTTPS-SETUP.md** - Local HTTPS configuration
+- **DATABASE-SETUP.md** - Future database migration guide
+- **CI-CD-SETUP.md** - GitHub Actions configuration details
+- **CUSTOM-DOMAIN.md** - Custom domain setup
 
-### 5. Custom Domain (Optional - 30 min)
+## 🔧 Managing Your Deployment
 
-Follow `CUSTOM-DOMAIN.md` to:
-- Configure DNS records
-- Add custom domain in Azure
-- Get free SSL certificates
+### View Logs
 
----
+```powershell
+# Backend API logs
+az containerapp logs show --name kevinmain-api --resource-group kevinmain-rg --follow
 
-## 📚 Documentation Guide
-
-### ⭐ Quick Start
-1. **QUICK-FIX-UKWEST.md** - Copy-paste commands for immediate deployment
-2. **AZURE-REGIONS.md** - Why UK South doesn't work & alternatives
-
-### Full Deployment Guide
-3. **DEPLOYMENT-SUMMARY.md** - Quick start and overview
-4. **AZURE-DEPLOYMENT.md** - Detailed Azure setup (update region to ukwest)
-
-### Then Configure
-5. **DATABASE-SETUP.md** - If using database for CV data
-6. **CI-CD-SETUP.md** - For automatic deployments
-7. **CUSTOM-DOMAIN.md** - For your own domain
-
-### Quick Reference
-- **DEPLOYMENT-SUMMARY.md** - Commands and troubleshooting
-- **This file** - What's been done and next steps
-
----
-
-## 🏗️ Architecture
-
-```
-					Your Users
-						↓
-				[Azure CDN / Edge]
-						↓
-	┌──────────────────────────────────────┐
-	│  Azure Static Web Apps (Frontend)    │
-	│  • Vue.js SPA                         │
-	│  • Global CDN                         │
-	│  • Free SSL                           │
-	│  Cost: FREE                           │
-	└──────────────┬───────────────────────┘
-				   │ HTTPS API Calls
-				   ↓
-	┌──────────────────────────────────────┐
-	│  Azure Container Apps (Backend)      │
-	│  • .NET 10 API                        │
-	│  • Docker container                   │
-	│  • Auto-scaling                       │
-	│  Cost: $15-30/month                   │
-	└──────────────┬───────────────────────┘
-				   │ SQL Connection
-				   ↓
-	┌──────────────────────────────────────┐
-	│  Azure SQL Database (CV Data)        │
-	│  • Structured data                    │
-	│  • Automatic backups                  │
-	│  • Query editor                       │
-	│  Cost: FREE - $5/month                │
-	└──────────────────────────────────────┘
+# Check deployment status
+az containerapp show --name kevinmain-api --resource-group kevinmain-rg
 ```
 
----
+### Update Configuration
 
-## ✨ Features Included
+Backend environment variables are set in the Container App. To update:
 
-### Frontend
-- ✅ Vue.js 3 SPA
-- ✅ Vue Router (Home, CV, Projects, Contact)
+```powershell
+az containerapp update `
+  --name kevinmain-api `
+  --resource-group kevinmain-rg `
+  --set-env-vars "KEY=value"
+```
+
+### Manual Redeploy
+
+Usually not needed (auto-deploys on push), but to manually trigger:
+
+```powershell
+# Trigger GitHub Actions
+git commit --allow-empty -m "Trigger deployment"
+git push origin main
+```
+
+## 🎯 Next Steps (Optional)
+
+### 1. Custom Domain
+
+See `CUSTOM-DOMAIN.md` to set up:
+- `www.kevin-main.com` → Frontend
+- `api.kevin-main.com` → Backend API
+
+### 2. Add Database
+
+When Azure SQL capacity is available, follow `DATABASE-SETUP.md` to migrate from in-memory to database-backed CV data.
+
+### 3. Configure SMTP
+
+Add email credentials to Container App environment variables for working contact form:
+
+```powershell
+az containerapp update `
+  --name kevinmain-api `
+  --resource-group kevinmain-rg `
+  --set-env-vars `
+	"SmtpSettings__Enabled=true" `
+	"SmtpSettings__Username=your-email@gmail.com" `
+	"SmtpSettings__Password=your-app-password"
+```
+
+## 🆘 Troubleshooting
+
+### Site Not Loading
+
+1. Check GitHub Actions - any failed deployments?
+2. Check Container App logs (command above)
+3. Verify CORS settings include your frontend URL
+
+### API Errors
+
+```powershell
+# Check container status
+az containerapp show --name kevinmain-api --resource-group kevinmain-rg
+
+# Restart container
+az containerapp revision restart --name kevinmain-api --resource-group kevinmain-rg
+```
+
+### Frontend Not Updating
+
+- Static Web Apps deployment takes 2-3 minutes
+- Check GitHub Actions for build status
+- Hard refresh browser (Ctrl+Shift+R)
+
+## 💡 Cost Optimization Tips
+
+1. **Container Apps**: Set `--min-replicas 0` to scale to zero when idle
+2. **Monitor costs**: Set up budget alerts in Azure Portal
+3. **Use free tiers**: Static Web Apps and SQL Database have free options
+
+## 🎉 Success!
+
+Your portfolio is live and automatically deploying. Every push to `main` updates your site!
+
+**Happy coding!** 🚀
 - ✅ Responsive design
 - ✅ Profile photo
 - ✅ Code-themed headers
@@ -342,3 +353,4 @@ Everything is prepared and ready to go. Your next step is:
 **Good luck with your deployment! You've got this! 💪**
 
 Questions? Check the detailed docs or reach out for help.
+

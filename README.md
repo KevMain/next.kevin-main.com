@@ -1,14 +1,31 @@
 # next.kevin-main.com
-Kevin Main's Personal Portfolio Website
+Kevin Main's Personal Portfolio Website - Live on Azure! 🚀
 
 A modern, professional portfolio website showcasing Kevin Main's extensive experience as a Lead Developer and Senior Software Engineer.
+
+## 🌐 Live Site
+
+- **Website**: https://lemon-flower-011704103.7.azurestaticapps.net
+- **API**: https://kevinmain-api.kindpond-04a3181a.ukwest.azurecontainerapps.io
+
+## 🏗️ Architecture
+
+```
+Frontend (Vue.js) → Azure Static Web Apps (FREE)
+    ↓ HTTPS
+Backend (.NET 10 API) → Azure Container Apps ($15-30/mo)
+    ↓ (Future: SQL Database)
+CV Data → In-Memory (will migrate to database)
+```
 
 ## Project Structure
 
 ```
 ├── KevinMain.API/          # .NET 10 Backend API
 ├── frontend/               # Vue.js 3 Frontend
-└── start-dev.ps1           # PowerShell script to run both
+├── .github/workflows/      # GitHub Actions CI/CD
+├── Dockerfile              # Container image for API
+└── start-dev.ps1           # Local development script
 ```
 
 ## Features
@@ -19,8 +36,9 @@ A modern, professional portfolio website showcasing Kevin Main's extensive exper
 - **Contact Form**: Functional email contact form with SMTP support
 - **Responsive Design**: Works beautifully on desktop, tablet, and mobile
 - **Modern UI**: Clean, professional design with gradient effects and code-themed headers
-- **API-Driven**: Backend services for CV data and contact handling
-- **Service Architecture**: Abstracted services for easy swapping of implementations
+- **API-Driven**: RESTful backend services for CV data and contact handling
+- **Auto-Deploy**: Push to GitHub = automatic deployment to Azure
+- **HTTPS Everywhere**: Secure by default in development and production
 
 ## Quick Start (Recommended)
 
@@ -158,21 +176,62 @@ To update your CV:
 
 The service pattern allows you to easily swap to a database or other data source by implementing the `ICVDataService` interface.
 
+## 🚀 Production Deployment
+
+The site is automatically deployed to Azure using GitHub Actions:
+
+- **Push to `main`** → Triggers automatic deployment
+- **Backend**: Builds Docker image, deploys to Azure Container Apps
+- **Frontend**: Builds Vue app, deploys to Azure Static Web Apps
+
+### Deployment Documentation
+
+See these guides for deployment details:
+- `README-DEPLOY.md` - Overview and live URLs
+- `CI-CD-SETUP.md` - GitHub Actions configuration
+- `CUSTOM-DOMAIN.md` - Custom domain setup (optional)
+
 ## Tech Stack
 
 ### Backend
 - .NET 10
 - ASP.NET Core Web API
 - MailKit for SMTP email support
-- Service-based architecture with dependency injection
+- Docker containerization
+- Azure Container Apps hosting
 
 ### Frontend
 - Vue.js 3 with Composition API
 - Vue Router for navigation
 - Vite for dev server and building
+- Azure Static Web Apps hosting
 - Modern CSS with gradient effects
 
-### Communication
-- REST API with JSON
-- CORS enabled for local development
+### DevOps
+- GitHub Actions CI/CD
+- Azure Container Registry
+- Azure Container Apps (backend)
+- Azure Static Web Apps (frontend)
+- Automated deployments on push
+
+## 📝 Documentation
+
+- **README.md** (this file) - Local development
+- **README-DEPLOY.md** - Production deployment overview
+- **HTTPS-SETUP.md** - Local HTTPS configuration
+- **DATABASE-SETUP.md** - Future database migration guide
+- **CI-CD-SETUP.md** - GitHub Actions setup
+- **CUSTOM-DOMAIN.md** - Custom domain configuration
+
+## 🔒 Security
+
+- HTTPS enforced in development and production
+- Trusted development certificates for local HTTPS
+- CORS properly configured
+- Secrets managed via GitHub Secrets and Azure
+- Non-root Docker container user
+
+## 📧 Contact
+
+Questions? Use the contact form on the live site or reach out via GitHub.
 
