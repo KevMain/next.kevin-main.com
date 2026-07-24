@@ -30,14 +30,15 @@ public class InMemoryCVDataService : ICVDataService
                 Phone = "07739 688271",
                 Location = "Northwich, Cheshire"
             },
-            Profile = "Technical Lead with over 20 years of commercial experience delivering enterprise software across the Microsoft ecosystem. Currently leading a team of five engineers responsible for technical direction, architecture and delivery of a SaaS platform used by more than 1,500 schools and thousands of users. Equally comfortable defining architecture, mentoring engineers, collaborating with stakeholders and writing production code. Passionate about modernising legacy platforms, improving engineering practices and delivering measurable business value.\n\nI believe the role of a Technical Lead is to enable teams to deliver consistently through clear technical direction, mentoring, pragmatic decision-making and engineering excellence. I enjoy coaching developers, encouraging ownership, improving delivery practices and balancing long-term architectural goals with day-to-day business needs.",
+            Profile = "Technical Lead with over 20 years of commercial experience delivering enterprise software across the Microsoft ecosystem. Currently leading a team of five engineers responsible for technical direction, architecture and delivery of a SaaS platform used by more than 1,500 schools and thousands of users. Equally comfortable defining architecture, mentoring engineers, collaborating with stakeholders and writing production code. Passionate about modernising legacy platforms, improving engineering practices, leveraging AI-assisted development, and delivering measurable business value.\n\nI believe the role of a Technical Lead is to enable teams to deliver consistently through clear technical direction, mentoring, pragmatic decision-making and engineering excellence. I enjoy coaching developers, encouraging ownership, improving delivery practices, exploring AI/ML integrations, and balancing long-term architectural goals with day-to-day business needs.",
             KeySkills = new List<string>
             {
                 "Leadership: Technical Leadership • Mentoring • Architecture • Stakeholder Management • Agile",
                 "Backend: C# • .NET • ASP.NET Core • REST APIs • Entity Framework • Dapper",
                 "Cloud: Azure • Azure DevOps • CI/CD",
                 "Frontend: React • Angular • TypeScript",
-                "Data: SQL Server • MongoDB • MySQL • Oracle"
+                "Data: SQL Server • MongoDB • MySQL • Oracle",
+                "AI & ML: Azure OpenAI • GitHub Copilot • AI-Assisted Development • Prompt Engineering • LLM Integration"
             },
             Tools = new List<string>
             {
@@ -66,6 +67,9 @@ public class InMemoryCVDataService : ICVDataService
                         "Leadership: Mentored two developers to strengthen technical capability and confidence",
                         "Leadership: Work closely with Product Managers and stakeholders to shape technical strategy, prioritise work and align delivery with business goals",
                         "Leadership: Lead technical design discussions, code reviews and engineering standards",
+                        "AI & Innovation: Integrated AI-assisted development tools (GitHub Copilot) to improve developer productivity",
+                        "AI & Innovation: Explored Azure OpenAI and LLM integration opportunities for product enhancement",
+                        "AI & Innovation: Championed adoption of AI coding assistants across the engineering team",
                         "Architecture: Designed Azure-hosted services supporting more than 1,500 schools and thousands of users",
                         "Architecture: Converted areas of a monolithic application into independently deployable microservices",
                         "Architecture: Championed an API-first design approach to improve scalability and integration",
@@ -77,7 +81,7 @@ public class InMemoryCVDataService : ICVDataService
                         "Impact: Reduced delivery time by approximately 25%",
                         "Impact: Delivered projects ranging from one-week enhancements to year-long strategic initiatives"
                     },
-                    TechStack = ".NET, C#, ASP.NET Core, Azure, React, Angular, SQL Server, Entity Framework, REST APIs, CI/CD, Azure DevOps"
+                    TechStack = ".NET, C#, ASP.NET Core, Azure, Azure OpenAI, React, Angular, SQL Server, Entity Framework, REST APIs, CI/CD, Azure DevOps, GitHub Copilot"
                 },
                 new WorkExperience
                 {
@@ -225,7 +229,7 @@ public class InMemoryCVDataService : ICVDataService
                     }
                 }
             },
-            LeisureActivities = "Outside of work I'm passionate about continuous improvement, whether that's training for endurance events, studying software architecture or experimenting with new technologies. I've completed the London Marathon and regularly compete in running events. I attend DDD and Umbraco community events and maintain personal projects focused on modernising legacy applications using contemporary architectural patterns."
+            LeisureActivities = "Outside of work I'm passionate about continuous improvement, whether that's training for endurance events, studying software architecture or experimenting with new technologies including AI/ML. I've completed the London Marathon and regularly compete in running events. I attend DDD and Umbraco community events and maintain personal projects focused on modernising legacy applications using contemporary architectural patterns and exploring AI integrations (Azure OpenAI, GitHub Copilot, LLM-powered features)."
         };
 
         return Task.FromResult(cvData);

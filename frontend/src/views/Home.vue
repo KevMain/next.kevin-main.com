@@ -7,7 +7,7 @@ public class Developer {
     public string Name => "Kevin Main";
     public int Experience => 20;
     public string[] Skills => new[] {
-        ".NET", "Azure", "Vue.js",
+        ".NET", "Azure", "AI/ML",
         "React", "Microservices"
     };
 }</pre>
@@ -57,10 +57,10 @@ services.AddAutoMapper();</pre>
           />
         </div>
         <h1 class="hero-title">Kevin Main</h1>
-        <p class="hero-subtitle">Lead Developer | Software Engineer | Tech Innovator</p>
+        <p class="hero-subtitle">Lead Developer | AI & Cloud Architect | Tech Innovator</p>
         <p class="hero-description">
           Crafting elegant solutions with over 20 years of experience in full-stack development, 
-          cloud architecture, and team leadership.
+          cloud architecture, AI integration, and team leadership.
         </p>
         <div class="hero-buttons">
           <router-link to="/cv" class="btn-primary">View CV</router-link>
@@ -73,7 +73,7 @@ services.AddAutoMapper();</pre>
           <span class="code-line"><span class="keyword">const</span> developer = {</span>
           <span class="code-line">  name: <span class="string">"Kevin Main"</span>,</span>
           <span class="code-line">  role: <span class="string">"Lead Developer"</span>,</span>
-          <span class="code-line">  skills: [<span class="string">".NET"</span>, <span class="string">"Azure"</span>, <span class="string">"Vue"</span>],</span>
+          <span class="code-line">  skills: [<span class="string">".NET"</span>, <span class="string">"Azure"</span>, <span class="string">"AI/ML"</span>],</span>
           <span class="code-line">  passion: <span class="string">"Building Amazing Software"</span></span>
           <span class="code-line">};</span>
         </div>
@@ -109,6 +109,11 @@ services.AddAutoMapper();</pre>
           <div class="expertise-icon">☁️</div>
           <h3>Cloud Architecture</h3>
           <p>Azure expertise in designing, deploying, and optimizing cloud-native solutions</p>
+        </div>
+        <div class="expertise-card highlight-card">
+          <div class="expertise-icon">🤖</div>
+          <h3>AI & Machine Learning</h3>
+          <p>Azure OpenAI, GitHub Copilot, AI-assisted development, prompt engineering, and LLM integration for modern software solutions</p>
         </div>
         <div class="expertise-card">
           <div class="expertise-icon">👥</div>
@@ -540,16 +545,16 @@ export default {
 
 .expertise-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
 }
 
 .expertise-card {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
-  padding: 50px 40px;
+  border-radius: 16px;
+  padding: 30px 20px;
   text-align: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 0 30px rgba(14, 165, 233, 0.1);
@@ -561,24 +566,35 @@ export default {
   border-color: rgba(14, 165, 233, 0.5);
 }
 
+.expertise-card.highlight-card {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(14, 165, 233, 0.15) 100%);
+  border: 2px solid rgba(168, 85, 247, 0.4);
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+}
+
+.expertise-card.highlight-card:hover {
+  box-shadow: 0 0 80px rgba(168, 85, 247, 0.5);
+  border-color: rgba(168, 85, 247, 0.7);
+}
+
 .expertise-icon {
-  font-size: 4rem;
-  margin-bottom: 25px;
+  font-size: 3rem;
+  margin-bottom: 15px;
   filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.5));
 }
 
 .expertise-card h3 {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   color: #e0e7ff;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   font-weight: 700;
 }
 
 .expertise-card p {
   color: #94a3b8;
-  line-height: 1.8;
-  font-size: 1.05rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
   font-weight: 300;
 }
 
@@ -636,6 +652,13 @@ export default {
   .btn-primary, .btn-secondary {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 1200px) and (min-width: 769px) {
+  .expertise-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>
