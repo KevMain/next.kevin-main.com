@@ -67,7 +67,12 @@ jobs:
         registryPassword: ${{ secrets.ACR_PASSWORD }}
         targetPort: 8080
         ingress: external
-        environmentVariables: ASPNETCORE_ENVIRONMENT=Production
+        environmentVariables: |
+          ASPNETCORE_ENVIRONMENT=Production
+          StravaSettings__Enabled=true
+          StravaSettings__ClientId=${{ secrets.STRAVA_CLIENT_ID }}
+          StravaSettings__ClientSecret=${{ secrets.STRAVA_CLIENT_SECRET }}
+          StravaSettings__RefreshToken=${{ secrets.STRAVA_REFRESH_TOKEN }}
 
     - name: Azure logout
       run: az logout
