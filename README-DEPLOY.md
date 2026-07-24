@@ -19,6 +19,8 @@ Your portfolio site is now **fully configured** for Azure deployment with databa
 - ✅ `.github/workflows/deploy-api.yml` - Automated API deployment
 
 #### Documentation
+- ✅ `QUICK-FIX-UKWEST.md` - **START HERE!** Copy-paste commands for UK West
+- ✅ `AZURE-REGIONS.md` - Region guide (UK South not working, use UK West)
 - ✅ `AZURE-DEPLOYMENT.md` - Complete step-by-step Azure setup (SQL, Container Apps, Static Web Apps)
 - ✅ `DATABASE-SETUP.md` - Entity Framework Core, migrations, models, seeding
 - ✅ `CI-CD-SETUP.md` - GitHub Actions, service principals, secrets, monitoring
@@ -44,9 +46,14 @@ Your portfolio site is now **fully configured** for Azure deployment with databa
 
 ## 🎯 Next Steps
 
+### ⚠️ Important: Region Issue
+**UK South is NOT accepting new SQL Servers.** Use **UK West** instead.
+
+👉 **See `QUICK-FIX-UKWEST.md` for updated copy-paste commands!**
+
 ### 1. Prerequisites (5 min)
 
-Install Azure CLI:
+Install Azure CLI (if not already installed):
 ```bash
 winget install Microsoft.AzureCLI
 az login
@@ -54,7 +61,11 @@ az login
 
 ### 2. Deploy to Azure (30 min)
 
-Follow the **Quick Start** in `DEPLOYMENT-SUMMARY.md`:
+**Quick Path**: Follow **QUICK-FIX-UKWEST.md** for copy-paste commands
+
+OR
+
+Follow the **Quick Start** in `DEPLOYMENT-SUMMARY.md` (update region to `ukwest`):
 
 ```bash
 # Step 1: Create Azure resources (10 min)
@@ -89,14 +100,18 @@ Follow `CUSTOM-DOMAIN.md` to:
 
 ## 📚 Documentation Guide
 
-### Start Here
-1. **DEPLOYMENT-SUMMARY.md** - Quick start and overview
-2. **AZURE-DEPLOYMENT.md** - Detailed Azure setup
+### ⭐ Quick Start
+1. **QUICK-FIX-UKWEST.md** - Copy-paste commands for immediate deployment
+2. **AZURE-REGIONS.md** - Why UK South doesn't work & alternatives
+
+### Full Deployment Guide
+3. **DEPLOYMENT-SUMMARY.md** - Quick start and overview
+4. **AZURE-DEPLOYMENT.md** - Detailed Azure setup (update region to ukwest)
 
 ### Then Configure
-3. **DATABASE-SETUP.md** - If using database for CV data
-4. **CI-CD-SETUP.md** - For automatic deployments
-5. **CUSTOM-DOMAIN.md** - For your own domain
+5. **DATABASE-SETUP.md** - If using database for CV data
+6. **CI-CD-SETUP.md** - For automatic deployments
+7. **CUSTOM-DOMAIN.md** - For your own domain
 
 ### Quick Reference
 - **DEPLOYMENT-SUMMARY.md** - Commands and troubleshooting

@@ -58,12 +58,16 @@ jobs:
     - name: Deploy to Azure Container Apps
       uses: azure/container-apps-deploy-action@v1
       with:
-        resource-group: ${{ env.AZURE_RESOURCE_GROUP }}
+        resourceGroup: ${{ env.AZURE_RESOURCE_GROUP }}
         containerAppName: ${{ env.CONTAINER_APP_NAME }}
+        containerAppEnvironment: kevinmain-env
         imageToDeploy: ${{ env.CONTAINER_REGISTRY }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
         registryUrl: ${{ env.CONTAINER_REGISTRY }}.azurecr.io
         registryUsername: ${{ secrets.ACR_USERNAME }}
         registryPassword: ${{ secrets.ACR_PASSWORD }}
+        targetPort: 8080
+        ingress: external
+        environmentVariables: ASPNETCORE_ENVIRONMENT=Production
 
     - name: Azure logout
       run: az logout
