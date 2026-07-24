@@ -21,6 +21,23 @@ builder.Services.AddCors(options =>
 // e.g., builder.Services.AddScoped<ICVDataService, DatabaseCVDataService>();
 builder.Services.AddSingleton<ICVDataService, InMemoryCVDataService>();
 
+// Configure Strava settings from appsettings.json
+var stravaSettings = builder.Configuration.GetSection("StravaSettings").Get<StravaSettings>() ?? new StravaSettings();
+builder.Services.AddSingleton(stravaSettings);
+
+// Register Strava service with HttpClient
+builder.Services.AddHttpClient<IStravaService, StravaService>();
+
+// Register running service - uses Strava if enabled, otherwise in-memory
+if (stravaSettings.Enabled)
+{
+    builder.Services.AddScoped<IRunningService, StravaRunningService>();
+}
+else
+{
+    builder.Services.AddSingleton<IRunningService, InMemoryRunningService>();
+}
+
 // Configure SMTP settings from appsettings.json
 var smtpSettings = builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>() ?? new SmtpSettings();
 builder.Services.AddSingleton(smtpSettings);
@@ -51,6 +68,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowVueApp");
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles(); // Enable serving static files from wwwroot
 
 app.UseAuthorization();
 

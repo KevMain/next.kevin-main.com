@@ -11,6 +11,7 @@
         <router-link to="/" class="nav-link" @click="closeMobileMenu">Home</router-link>
         <router-link to="/cv" class="nav-link" @click="closeMobileMenu">CV</router-link>
         <router-link to="/projects" class="nav-link" @click="closeMobileMenu">Projects</router-link>
+        <router-link to="/running" class="nav-link" @click="closeMobileMenu">Running</router-link>
         <router-link to="/contact" class="nav-link" @click="closeMobileMenu">Contact</router-link>
       </div>
 
