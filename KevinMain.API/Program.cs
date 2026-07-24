@@ -3,11 +3,15 @@ using KevinMain.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Get CORS origins from configuration
+var corsOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>() 
+    ?? new[] { "https://localhost:5173", "http://localhost:5173" };
+
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVueApp",
-        policy => policy.WithOrigins("https://localhost:5173", "http://localhost:5173")
+        policy => policy.WithOrigins(corsOrigins)
                         .AllowAnyHeader()
                         .AllowAnyMethod());
 });
