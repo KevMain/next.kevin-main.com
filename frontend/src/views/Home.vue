@@ -57,10 +57,10 @@ services.AddAutoMapper();</pre>
           />
         </div>
         <h1 class="hero-title">Kevin Main</h1>
-        <p class="hero-subtitle">Lead Developer | AI & Cloud Architect | Tech Innovator</p>
+        <p class="hero-subtitle">Lead Web Developer in Cheshire | AI & Cloud Architect | Tech Innovator</p>
         <p class="hero-description">
-          Crafting elegant solutions with over 20 years of experience in full-stack development, 
-          cloud architecture, AI integration, and team leadership.
+          Professional web developer based in Cheshire, crafting elegant solutions with over 20 years of experience in full-stack development, 
+          cloud architecture, AI integration, and team leadership. Serving clients across Cheshire and the North West.
         </p>
         <div class="hero-buttons">
           <router-link to="/cv" class="btn-primary">View CV</router-link>
@@ -93,6 +93,35 @@ services.AddAutoMapper();</pre>
       <div class="stat-card">
         <div class="stat-number">5</div>
         <div class="stat-label">Team Members Led</div>
+      </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location-section">
+      <div class="location-content">
+        <h2 class="section-title">Web Developer Based in Cheshire</h2>
+        <p class="location-description">
+          As a professional web developer based in Cheshire, I provide high-quality software development services 
+          to businesses across the region and throughout the North West of England. With deep expertise in modern 
+          web technologies including .NET, Azure, and Vue.js, I deliver scalable, reliable, and innovative solutions 
+          tailored to your business needs.
+        </p>
+        <p class="location-description">
+          Whether you're a startup in Chester, a growing business in Warrington, or an enterprise in Manchester, 
+          I bring over 20 years of professional development experience to help transform your digital presence 
+          and drive your business forward.
+        </p>
+        <div class="service-areas">
+          <h3>Service Areas</h3>
+          <ul>
+            <li>Chester & Cheshire West</li>
+            <li>Warrington & Cheshire East</li>
+            <li>Manchester & Greater Manchester</li>
+            <li>Liverpool & Merseyside</li>
+            <li>North West England</li>
+            <li>Remote work across the UK</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -521,6 +550,82 @@ export default {
   letter-spacing: 0.5px;
 }
 
+/* Location Section */
+.location-section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 40px auto;
+  position: relative;
+  z-index: 1;
+  background: rgba(14, 165, 233, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.location-content {
+  text-align: center;
+}
+
+.location-section .section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.location-description {
+  color: #cbd5e1;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 25px;
+  font-weight: 300;
+  text-align: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.service-areas {
+  margin-top: 40px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.service-areas h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.5rem;
+  color: #e0e7ff;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.service-areas ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.service-areas li {
+  color: #94a3b8;
+  font-size: 1.05rem;
+  padding: 12px 20px;
+  background: rgba(14, 165, 233, 0.08);
+  border-radius: 8px;
+  border-left: 3px solid #0ea5e9;
+  transition: all 0.3s ease;
+}
+
+.service-areas li:hover {
+  background: rgba(14, 165, 233, 0.15);
+  transform: translateX(5px);
+  border-left-color: #a855f7;
+}
+
 /* Expertise Section */
 .expertise-section {
   padding: 100px 40px;
@@ -652,6 +757,24 @@ export default {
   .btn-primary, .btn-secondary {
     width: 100%;
     text-align: center;
+  }
+
+  .location-section {
+    padding: 60px 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .location-section .section-title {
+    font-size: 2rem;
+  }
+
+  .location-description {
+    font-size: 1.05rem;
+  }
+
+  .service-areas ul {
+    grid-template-columns: 1fr;
   }
 }
 
