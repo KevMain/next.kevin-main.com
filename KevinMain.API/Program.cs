@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
 
 // Register CV data service with caching
 // The base service (InMemoryCVDataService) generates the data
-// The CachedCVDataService wraps it with 24-hour in-memory + file-based caching
+// The CachedCVDataService wraps it with 24-hour in-memory caching for fast performance
 // 
 // To switch to database in future:
 // 1. Create DatabaseCVDataService implementing ICVDataService
@@ -68,6 +68,13 @@ else
 }
 
 builder.Services.AddControllers();
+
+// Add response compression for better API performance
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -80,6 +87,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowVueApp");
+
+app.UseResponseCompression();
 
 app.UseHttpsRedirection();
 
