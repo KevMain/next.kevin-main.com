@@ -83,12 +83,12 @@ public class InMemoryServiceDataService : IServiceDataService
                             KeyFeatures = new List<string>
                             {
                                 "Azure App Services, Functions, and Container Apps",
-                                "Azure SQL Database, Cosmos DB, and storage solutions",
+                                "Azure SQL Database and storage solutions",
                                 "Azure DevOps CI/CD pipelines",
                                 "Infrastructure as Code (ARM, Bicep)",
                                 "Monitoring and diagnostics with Application Insights"
                             },
-                            Technologies = new List<string> { "Azure", "Azure DevOps", "App Services", "Functions", "SQL Database", "Cosmos DB" },
+                            Technologies = new List<string> { "Azure", "Azure DevOps", "App Services", "Functions", "SQL Database" },
                             Deliverables = new List<string>
                             {
                                 "Deployed cloud infrastructure",
@@ -160,10 +160,9 @@ public class InMemoryServiceDataService : IServiceDataService
                                 "Azure OpenAI service integration",
                                 "LLM-powered features (chat, summarization, analysis)",
                                 "Prompt engineering and optimization",
-                                "Custom AI workflows and automations",
-                                "RAG (Retrieval Augmented Generation) implementations"
+                                "Custom AI workflows and automations"
                             },
-                            Technologies = new List<string> { "Azure OpenAI", "GPT-4", "Semantic Kernel", ".NET", "Python" },
+                            Technologies = new List<string> { "Azure OpenAI", "GPT-4", ".NET", "Python" },
                             Deliverables = new List<string>
                             {
                                 "AI-powered features",
@@ -200,26 +199,26 @@ public class InMemoryServiceDataService : IServiceDataService
                 new ServiceCategory
                 {
                     CategoryName = "Frontend Development",
-                    CategoryDescription = "Modern, responsive web applications using React and TypeScript",
+                    CategoryDescription = "Modern, responsive web applications using latest frontend technologies",
                     Icon = "🎨",
                     Services = new List<Service>
                     {
                         new Service
                         {
-                            Name = "React Application Development",
-                            Description = "Build modern, responsive single-page applications using React and TypeScript with clean architecture and excellent user experience.",
+                            Name = "Frontend Application Development",
+                            Description = "Build modern, responsive single-page applications using latest frontend technologies with clean architecture and excellent user experience.",
                             KeyFeatures = new List<string>
                             {
                                 "React with TypeScript development",
-                                "State management (Redux, Context API)",
-                                "Component library integration (Material-UI, Ant Design)",
+                                "Angular development",
+                                "Vue.js development",
                                 "Responsive design and mobile-first approach",
                                 "API integration and data fetching"
                             },
-                            Technologies = new List<string> { "React", "TypeScript", "Redux", "Material-UI", "Vite", "Webpack" },
+                            Technologies = new List<string> { "React", "Angular", "TypeScript", "Redux", "Vue" },
                             Deliverables = new List<string>
                             {
-                                "Production-ready React application",
+                                "Production-ready applications",
                                 "Reusable component library",
                                 "Responsive UI/UX",
                                 "Integration with backend APIs"
@@ -322,7 +321,7 @@ public class InMemoryServiceDataService : IServiceDataService
                                 "Test automation frameworks",
                                 "Code coverage analysis"
                             },
-                            Technologies = new List<string> { "xUnit", "NUnit", "Moq", "SpecFlow", "Playwright", "Jest" },
+                            Technologies = new List<string> { "xUnit", "NUnit", "Moq", "Playwright" },
                             Deliverables = new List<string>
                             {
                                 "Testing strategy document",
