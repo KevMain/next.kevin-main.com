@@ -1,3 +1,4 @@
+using KevinMain.API.Extensions;
 using KevinMain.API.Models;
 
 namespace KevinMain.API.Services;
@@ -6,11 +7,13 @@ namespace KevinMain.API.Services;
 /// Cached implementation of CV data service that wraps any ICVDataService implementation.
 /// Uses in-memory caching for fast access with 24-hour expiration.
 /// This decorator pattern allows caching to work with any underlying data source (in-memory, database, API).
+/// Thread-safe for concurrent access using SemaphoreSlim.
 /// </summary>
-public class CachedCVDataService : ICVDataService
+public class CachedCVDataService : ICVDataService, IDisposable
 {
     private readonly ICVDataService _innerService;
     private readonly ILogger<CachedCVDataService> _logger;
+    private readonly SemaphoreSlim _cacheLock = new(1, 1);
     private CVData? _cachedData;
     private DateTime _cacheExpiration = DateTime.MinValue;
     private readonly TimeSpan _cacheDuration = TimeSpan.FromHours(24);
@@ -23,12 +26,28 @@ public class CachedCVDataService : ICVDataService
 
     public async Task<CVData> GetCVDataAsync()
     {
-        if (_cachedData == null || DateTime.UtcNow > _cacheExpiration)
+        // Fast path: cache is valid and available
+        if (_cachedData != null && DateTime.UtcNow <= _cacheExpiration)
         {
+            _logger.LogDebug("Returning CV data from in-memory cache");
+            return _cachedData;
+        }
+
+        // Slow path: need to refresh cache (thread-safe)
+        await _cacheLock.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            // Double-check after acquiring lock (another thread might have refreshed)
+            if (_cachedData != null && DateTime.UtcNow <= _cacheExpiration)
+            {
+                _logger.LogDebug("Cache was refreshed by another thread, returning cached data");
+                return _cachedData;
+            }
+
             _logger.LogInformation("CV cache expired or empty, fetching from data source");
             try
             {
-                _cachedData = await _innerService.GetCVDataAsync();
+                _cachedData = await _innerService.GetCVDataAsync().ConfigureAwait(false);
                 _cacheExpiration = DateTime.UtcNow.Add(_cacheDuration);
                 _logger.LogInformation("CV data cached successfully, expires at {Expiration}", _cacheExpiration);
             }
@@ -47,13 +66,13 @@ public class CachedCVDataService : ICVDataService
                     throw;
                 }
             }
-        }
-        else
-        {
-            _logger.LogDebug("Returning CV data from in-memory cache");
-        }
 
-        return _cachedData;
+            return _cachedData!; // Guaranteed non-null at this point
+        }
+        finally
+        {
+            _cacheLock.Release();
+        }
     }
 
     public async Task<PersonalInfo> GetPersonalInfoAsync()
@@ -65,12 +84,7 @@ public class CachedCVDataService : ICVDataService
     public async Task<ProfileData> GetProfileAsync()
     {
         var cvData = await GetCVDataAsync();
-        return new ProfileData
-        {
-            Profile = cvData.Profile,
-            KeySkills = cvData.KeySkills,
-            Tools = cvData.Tools
-        };
+        return cvData.ToProfileData();
     }
 
     public async Task<List<WorkExperience>> GetWorkExperienceAsync()
@@ -89,5 +103,10 @@ public class CachedCVDataService : ICVDataService
     {
         var cvData = await GetCVDataAsync();
         return cvData.LeisureActivities;
+    }
+
+    public void Dispose()
+    {
+        _cacheLock?.Dispose();
     }
 }

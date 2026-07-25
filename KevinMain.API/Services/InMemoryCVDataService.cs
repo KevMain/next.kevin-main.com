@@ -1,3 +1,4 @@
+using KevinMain.API.Extensions;
 using KevinMain.API.Models;
 
 namespace KevinMain.API.Services;
@@ -225,38 +226,33 @@ public class InMemoryCVDataService : ICVDataService
         return Task.FromResult(cvData);
     }
 
-    public async Task<PersonalInfo> GetPersonalInfoAsync()
+    public Task<PersonalInfo> GetPersonalInfoAsync()
     {
-        var cvData = await GetCVDataAsync();
-        return cvData.PersonalInfo;
+        var cvData = GetCVDataAsync().Result;
+        return Task.FromResult(cvData.PersonalInfo);
     }
 
-    public async Task<ProfileData> GetProfileAsync()
+    public Task<ProfileData> GetProfileAsync()
     {
-        var cvData = await GetCVDataAsync();
-        return new ProfileData
-        {
-            Profile = cvData.Profile,
-            KeySkills = cvData.KeySkills,
-            Tools = cvData.Tools
-        };
+        var cvData = GetCVDataAsync().Result;
+        return Task.FromResult(cvData.ToProfileData());
     }
 
-    public async Task<List<WorkExperience>> GetWorkExperienceAsync()
+    public Task<List<WorkExperience>> GetWorkExperienceAsync()
     {
-        var cvData = await GetCVDataAsync();
-        return cvData.WorkExperience;
+        var cvData = GetCVDataAsync().Result;
+        return Task.FromResult(cvData.WorkExperience);
     }
 
-    public async Task<Education> GetEducationAsync()
+    public Task<Education> GetEducationAsync()
     {
-        var cvData = await GetCVDataAsync();
-        return cvData.Education;
+        var cvData = GetCVDataAsync().Result;
+        return Task.FromResult(cvData.Education);
     }
 
-    public async Task<string> GetLeisureActivitiesAsync()
+    public Task<string> GetLeisureActivitiesAsync()
     {
-        var cvData = await GetCVDataAsync();
-        return cvData.LeisureActivities;
+        var cvData = GetCVDataAsync().Result;
+        return Task.FromResult(cvData.LeisureActivities);
     }
 }
