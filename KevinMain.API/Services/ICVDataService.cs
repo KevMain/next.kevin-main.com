@@ -13,4 +13,29 @@ public interface ICVDataService
     /// Future implementations could make this async and retrieve from a database.
     /// </summary>
     Task<CVData> GetCVDataAsync();
+
+    /// <summary>
+    /// Gets personal information (name, contact details).
+    /// </summary>
+    Task<PersonalInfo> GetPersonalInfoAsync();
+
+    /// <summary>
+    /// Gets profile summary including profile text, key skills, and tools.
+    /// </summary>
+    Task<ProfileData> GetProfileAsync();
+
+    /// <summary>
+    /// Gets all work experience entries.
+    /// </summary>
+    Task<List<WorkExperience>> GetWorkExperienceAsync();
+
+    /// <summary>
+    /// Gets education information.
+    /// </summary>
+    Task<Education> GetEducationAsync();
+
+    /// <summary>
+    /// Gets leisure activities description.
+    /// </summary>
+    Task<string> GetLeisureActivitiesAsync();
 }

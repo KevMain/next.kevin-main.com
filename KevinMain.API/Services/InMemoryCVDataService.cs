@@ -5,24 +5,11 @@ namespace KevinMain.API.Services;
 /// <summary>
 /// In-memory implementation of CV data service.
 /// This is wrapped by CachedCVDataService (see Program.cs) which provides 24-hour in-memory + file-based caching.
-/// 
-/// This can easily be replaced with a database-backed implementation (e.g., DatabaseCVDataService)
-/// by creating a new class that implements ICVDataService and swapping it in Program.cs.
-/// The caching layer will automatically work with any ICVDataService implementation.
-/// 
-/// Future database implementation could:
-/// - Use Entity Framework Core with SQL Server
-/// - Use MongoDB with the MongoDB.Driver package
-/// - Use Cosmos DB for Azure-native solution
-/// - Use any other data store by implementing the same interface
 /// </summary>
 public class InMemoryCVDataService : ICVDataService
 {
     public Task<CVData> GetCVDataAsync()
     {
-        // TODO: When implementing database version, replace this with:
-        // return await _dbContext.CVData.Include(x => x.WorkExperience).FirstOrDefaultAsync();
-
         var cvData = new CVData
         {
             PersonalInfo = new PersonalInfo
@@ -236,5 +223,40 @@ public class InMemoryCVDataService : ICVDataService
         };
 
         return Task.FromResult(cvData);
+    }
+
+    public async Task<PersonalInfo> GetPersonalInfoAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.PersonalInfo;
+    }
+
+    public async Task<ProfileData> GetProfileAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return new ProfileData
+        {
+            Profile = cvData.Profile,
+            KeySkills = cvData.KeySkills,
+            Tools = cvData.Tools
+        };
+    }
+
+    public async Task<List<WorkExperience>> GetWorkExperienceAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.WorkExperience;
+    }
+
+    public async Task<Education> GetEducationAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.Education;
+    }
+
+    public async Task<string> GetLeisureActivitiesAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.LeisureActivities;
     }
 }

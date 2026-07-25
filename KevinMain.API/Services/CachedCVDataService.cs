@@ -55,4 +55,39 @@ public class CachedCVDataService : ICVDataService
 
         return _cachedData;
     }
+
+    public async Task<PersonalInfo> GetPersonalInfoAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.PersonalInfo;
+    }
+
+    public async Task<ProfileData> GetProfileAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return new ProfileData
+        {
+            Profile = cvData.Profile,
+            KeySkills = cvData.KeySkills,
+            Tools = cvData.Tools
+        };
+    }
+
+    public async Task<List<WorkExperience>> GetWorkExperienceAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.WorkExperience;
+    }
+
+    public async Task<Education> GetEducationAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.Education;
+    }
+
+    public async Task<string> GetLeisureActivitiesAsync()
+    {
+        var cvData = await GetCVDataAsync();
+        return cvData.LeisureActivities;
+    }
 }
