@@ -19,8 +19,10 @@
           <div class="footer-links">
             <router-link to="/" class="footer-link">Home</router-link>
             <router-link to="/cv" class="footer-link">CV</router-link>
+            <router-link to="/services" class="footer-link">Services</router-link>
             <router-link to="/projects" class="footer-link">Projects</router-link>
             <router-link to="/contact" class="footer-link">Contact</router-link>
+            <router-link to="/running" class="footer-link">Running</router-link>
           </div>
         </div>
 

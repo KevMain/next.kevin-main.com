@@ -53,37 +53,40 @@ public async Task&lt;IActionResult&gt; Get()
         </div>
         <div class="container">
           <div class="hero-content">
-            <div class="hero-badge">Available for Hire</div>
-            <h1 class="name">{{ cvData.personalInfo.name }}</h1>
-            <h2 class="role">{{ cvData.personalInfo.title }}</h2>
-            <p class="tagline">Optimizationeer. Abstractionist. Algorithmist. Recursionist</p>
-
-            <div class="contact-grid">
-              <a :href="`mailto:${cvData.personalInfo.email}`" class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>{{ cvData.personalInfo.email }}</span>
-              </a>
-
-              <div class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 5C3 3.89543 3.89543 3 5 3H8.27924C8.70967 3 9.09181 3.27543 9.22792 3.68377L10.7257 8.17721C10.8831 8.64932 10.6694 9.16531 10.2243 9.38787L7.96701 10.5165C9.06925 12.9612 11.0388 14.9308 13.4835 16.033L14.6121 13.7757C14.8347 13.3306 15.3507 13.1169 15.8228 13.2743L20.3162 14.7721C20.7246 14.9082 21 15.2903 21 15.7208V19C21 20.1046 20.1046 21 19 21H18C9.71573 21 3 14.2843 3 6V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>{{ cvData.personalInfo.phone }}</span>
-              </div>
-
-              <div class="contact-item">
-                <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
-                  <path d="M17.657 16.657L13.414 20.9C13.039 21.275 12.5306 21.4854 12 21.4854C11.4694 21.4854 10.961 21.275 10.586 20.9L6.343 16.657C5.22422 15.5381 4.46234 14.1127 4.15369 12.5608C3.84504 11.009 4.00349 9.40047 4.60901 7.93868C5.21452 6.4769 6.2399 5.22749 7.55548 4.34846C8.87107 3.46943 10.4178 3.00024 12 3.00024C13.5822 3.00024 15.1289 3.46943 16.4445 4.34846C17.7601 5.22749 18.7855 6.4769 19.391 7.93868C19.9965 9.40047 20.155 11.009 19.8463 12.5608C19.5377 14.1127 18.7758 15.5381 17.657 16.657Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span>{{ cvData.personalInfo.location }}</span>
-              </div>
-            </div>
+            <h1 class="role">Curriculum Vitae</h1>
+            <p class="tagline">Lead Web Developer in Cheshire | AI & Cloud Architect | Tech Innovator</p>
           </div>
         </div>
       </header>
+
+      <!-- Contact Information -->
+      <div class="contact-section">
+        <div class="container">
+          <div class="contact-grid">
+            <a :href="`mailto:${cvData.personalInfo.email}`" class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ cvData.personalInfo.email }}</span>
+            </a>
+
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M3 5C3 3.89543 3.89543 3 5 3H8.27924C8.70967 3 9.09181 3.27543 9.22792 3.68377L10.7257 8.17721C10.8831 8.64932 10.6694 9.16531 10.2243 9.38787L7.96701 10.5165C9.06925 12.9612 11.0388 14.9308 13.4835 16.033L14.6121 13.7757C14.8347 13.3306 15.3507 13.1169 15.8228 13.2743L20.3162 14.7721C20.7246 14.9082 21 15.2903 21 15.7208V19C21 20.1046 20.1046 21 19 21H18C9.71573 21 3 14.2843 3 6V5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ cvData.personalInfo.phone }}</span>
+            </div>
+
+            <div class="contact-item">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M17.657 16.657L13.414 20.9C13.039 21.275 12.5306 21.4854 12 21.4854C11.4694 21.4854 10.961 21.275 10.586 20.9L6.343 16.657C5.22422 15.5381 4.46234 14.1127 4.15369 12.5608C3.84504 11.009 4.00349 9.40047 4.60901 7.93868C5.21452 6.4769 6.2399 5.22749 7.55548 4.34846C8.87107 3.46943 10.4178 3.00024 12 3.00024C13.5822 3.00024 15.1289 3.46943 16.4445 4.34846C17.7601 5.22749 18.7855 6.4769 19.391 7.93868C19.9965 9.40047 20.155 11.009 19.8463 12.5608C19.5377 14.1127 18.7758 15.5381 17.657 16.657Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 13C13.1046 13 14 12.1046 14 11C14 9.89543 13.1046 9 12 9C10.8954 9 10 9.89543 10 11C10 12.1046 10.8954 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>{{ cvData.personalInfo.location }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Sub Navigation -->
       <nav class="sub-nav">
@@ -454,21 +457,33 @@ export default {
 }
 
 .role {
-  font-size: 1.5rem;
-  font-weight: 300;
-  margin: 10px 0 0;
-  color: rgba(255, 255, 255, 0.85);
-  letter-spacing: 0.5px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -2px;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #ffffff 0%, #00f5ff 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 8s ease infinite;
+  background-size: 200% 200%;
 }
 
 .tagline {
-  font-size: 1.15rem;
-  font-weight: 400;
-  margin: 10px 0 30px;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.5px;
-  font-style: italic;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.8);
   max-width: 700px;
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.contact-section {
+  background: rgba(10, 14, 39, 0.5);
+  padding: 40px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .contact-grid {
@@ -476,8 +491,8 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   width: 100%;
-  max-width: 850px;
-  margin-top: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .contact-item {

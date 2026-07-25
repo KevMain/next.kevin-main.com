@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import CV from '../views/CV.vue'
+import Services from '../views/Services.vue'
 import Projects from '../views/Projects.vue'
 import Contact from '../views/Contact.vue'
 import Running from '../views/Running.vue'
@@ -17,19 +18,24 @@ const routes = [
     component: CV
   },
   {
+    path: '/services',
+    name: 'Services',
+    component: Services
+  },
+  {
     path: '/projects',
     name: 'Projects',
     component: Projects
   },
   {
-    path: '/running',
-    name: 'Running',
-    component: Running
-  },
-  {
     path: '/contact',
     name: 'Contact',
     component: Contact
+  },
+  {
+    path: '/running',
+    name: 'Running',
+    component: Running
   }
 ]
 

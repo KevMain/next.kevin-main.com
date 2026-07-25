@@ -32,6 +32,9 @@ builder.Services.AddSingleton<ICVDataService>(sp =>
     return new CachedCVDataService(innerService, logger);
 });
 
+// Register Services data service
+builder.Services.AddSingleton<IServiceDataService, InMemoryServiceDataService>();
+
 // Configure Strava settings from appsettings.json
 var stravaSettings = builder.Configuration.GetSection("StravaSettings").Get<StravaSettings>() ?? new StravaSettings();
 builder.Services.AddSingleton(stravaSettings);
