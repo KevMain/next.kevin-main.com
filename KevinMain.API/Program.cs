@@ -16,9 +16,13 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
+// Configure caching settings from appsettings.json
+var cachingSettings = builder.Configuration.GetSection("CachingSettings").Get<CachingSettings>() ?? new CachingSettings();
+builder.Services.AddSingleton(cachingSettings);
+
 // Register CV data service with caching
 // The base service (InMemoryCVDataService) generates the data
-// The CachedCVDataService wraps it with 24-hour in-memory caching for fast performance
+// The CachedCVDataService wraps it with configurable in-memory caching for fast performance
 // 
 // To switch to database in future:
 // 1. Create DatabaseCVDataService implementing ICVDataService
@@ -29,7 +33,8 @@ builder.Services.AddSingleton<ICVDataService>(sp =>
 {
     var innerService = sp.GetRequiredService<InMemoryCVDataService>();
     var logger = sp.GetRequiredService<ILogger<CachedCVDataService>>();
-    return new CachedCVDataService(innerService, logger);
+    var settings = sp.GetRequiredService<CachingSettings>();
+    return new CachedCVDataService(innerService, logger, settings);
 });
 
 // Register Services data service

@@ -5,7 +5,7 @@ namespace KevinMain.API.Services;
 
 /// <summary>
 /// Cached implementation of CV data service that wraps any ICVDataService implementation.
-/// Uses in-memory caching for fast access with 24-hour expiration.
+/// Uses in-memory caching for fast access with configurable expiration.
 /// This decorator pattern allows caching to work with any underlying data source (in-memory, database, API).
 /// Thread-safe for concurrent access using SemaphoreSlim.
 /// </summary>
@@ -16,12 +16,14 @@ public class CachedCVDataService : ICVDataService, IDisposable
     private readonly SemaphoreSlim _cacheLock = new(1, 1);
     private CVData? _cachedData;
     private DateTime _cacheExpiration = DateTime.MinValue;
-    private readonly TimeSpan _cacheDuration = TimeSpan.FromHours(24);
+    private readonly TimeSpan _cacheDuration;
 
-    public CachedCVDataService(ICVDataService innerService, ILogger<CachedCVDataService> logger)
+    public CachedCVDataService(ICVDataService innerService, ILogger<CachedCVDataService> logger, CachingSettings cachingSettings)
     {
         _innerService = innerService;
         _logger = logger;
+        _cacheDuration = TimeSpan.FromHours(cachingSettings.CVCacheDurationHours);
+        _logger.LogInformation("CachedCVDataService initialized with cache duration of {DurationHours} hours", cachingSettings.CVCacheDurationHours);
     }
 
     public async Task<CVData> GetCVDataAsync()
