@@ -4,8 +4,11 @@ namespace KevinMain.API.Services;
 
 /// <summary>
 /// In-memory implementation of CV data service.
+/// This is wrapped by CachedCVDataService (see Program.cs) which provides 24-hour in-memory + file-based caching.
+/// 
 /// This can easily be replaced with a database-backed implementation (e.g., DatabaseCVDataService)
 /// by creating a new class that implements ICVDataService and swapping it in Program.cs.
+/// The caching layer will automatically work with any ICVDataService implementation.
 /// 
 /// Future database implementation could:
 /// - Use Entity Framework Core with SQL Server

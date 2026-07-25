@@ -16,10 +16,21 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
-// Register CV data service
-// To switch to database: Replace InMemoryCVDataService with DatabaseCVDataService
-// e.g., builder.Services.AddScoped<ICVDataService, DatabaseCVDataService>();
-builder.Services.AddSingleton<ICVDataService, InMemoryCVDataService>();
+// Register CV data service with caching
+// The base service (InMemoryCVDataService) generates the data
+// The CachedCVDataService wraps it with 24-hour in-memory + file-based caching
+// 
+// To switch to database in future:
+// 1. Create DatabaseCVDataService implementing ICVDataService
+// 2. Replace InMemoryCVDataService with DatabaseCVDataService below
+// 3. Caching will automatically work with the database source!
+builder.Services.AddSingleton<InMemoryCVDataService>();
+builder.Services.AddSingleton<ICVDataService>(sp =>
+{
+    var innerService = sp.GetRequiredService<InMemoryCVDataService>();
+    var logger = sp.GetRequiredService<ILogger<CachedCVDataService>>();
+    return new CachedCVDataService(innerService, logger);
+});
 
 // Configure Strava settings from appsettings.json
 var stravaSettings = builder.Configuration.GetSection("StravaSettings").Get<StravaSettings>() ?? new StravaSettings();
