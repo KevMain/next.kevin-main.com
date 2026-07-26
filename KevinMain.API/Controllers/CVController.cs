@@ -31,9 +31,20 @@ public class CVController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetCompleteCV()
     {
+        var startTime = DateTime.UtcNow;
         try
         {
+            _logger.LogInformation("CV API request received");
+
+            var serviceStartTime = DateTime.UtcNow;
             var cvData = await _cvDataService.GetCVDataAsync();
+            var serviceElapsed = (DateTime.UtcNow - serviceStartTime).TotalMilliseconds;
+
+            _logger.LogInformation("CV data service call completed in {ElapsedMs}ms", serviceElapsed);
+
+            var totalElapsed = (DateTime.UtcNow - startTime).TotalMilliseconds;
+            _logger.LogInformation("CV API request completed in {TotalMs}ms", totalElapsed);
+
             return Ok(cvData);
         }
         catch (Exception ex)

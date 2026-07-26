@@ -72,7 +72,12 @@ else
     builder.Services.AddScoped<IContactService, LoggingContactService>();
 }
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Optimize JSON serialization for performance
+        options.JsonSerializerOptions.DefaultBufferSize = 16384; // 16KB buffer
+    });
 
 // Add response compression for better API performance
 builder.Services.AddResponseCompression(options =>
@@ -102,5 +107,26 @@ app.UseStaticFiles(); // Enable serving static files from wwwroot
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Eagerly initialize CV cache on startup to avoid cold start delays
+// This pre-populates the in-memory cache before the first request
+using (var scope = app.Services.CreateScope())
+{
+    var cvService = scope.ServiceProvider.GetRequiredService<ICVDataService>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    try
+    {
+        logger.LogInformation("Pre-loading CV data cache on startup...");
+        var startTime = DateTime.UtcNow;
+        _ = await cvService.GetCVDataAsync();
+        var elapsed = (DateTime.UtcNow - startTime).TotalMilliseconds;
+        logger.LogInformation("CV data cache pre-loaded successfully in {ElapsedMs}ms", elapsed);
+    }
+    catch (Exception ex)
+    {
+        logger.LogWarning(ex, "Failed to pre-load CV cache on startup - will load on first request");
+    }
+}
 
 app.Run();
