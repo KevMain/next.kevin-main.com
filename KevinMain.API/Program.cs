@@ -2,6 +2,7 @@ using KevinMain.API.Models;
 using KevinMain.API.Services;
 using AspNetCoreRateLimit;
 using KevinMain.API.Middleware;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -121,6 +122,20 @@ if (app.Environment.IsDevelopment())
 
 // Add security headers
 app.UseSecurityHeaders();
+
+// Resolve the real client IP from X-Forwarded-For set by the Azure Container
+// Apps ingress proxy. ACA ingress overwrites client-supplied forwarded headers,
+// so trusting it here is safe; the resulting Connection.RemoteIpAddress is what
+// rate limiting uses (RealIpHeader is deliberately set to an inert header name
+// in appsettings.json so the spoofable X-Real-IP header is never consulted).
+var forwardedHeadersOptions = new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+};
+// All traffic reaches this app via the ACA ingress; accept its forwarded headers
+forwardedHeadersOptions.KnownNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 // CORS must run before rate limiting so throttled (429) responses
 // still carry CORS headers and aren't blocked by browsers
