@@ -36,8 +36,8 @@ public class ContactController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        // TODO: Add rate limiting here to prevent spam
-        // Example: Check if IP has submitted more than 5 messages in last hour
+        // Rate limiting is enforced by the AspNetCoreRateLimit middleware
+        // (see IpRateLimiting rules in appsettings.json: 3 requests/hour for this endpoint)
 
         var result = await _contactService.ProcessContactRequestAsync(request);
 

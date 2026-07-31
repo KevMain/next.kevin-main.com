@@ -1,7 +1,20 @@
 using KevinMain.API.Models;
 using KevinMain.API.Services;
+using AspNetCoreRateLimit;
+using KevinMain.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add memory cache for rate limiting
+builder.Services.AddMemoryCache();
+
+// Configure IP rate limiting
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddInMemoryRateLimiting();
 
 // Get CORS origins from configuration
 var corsOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>() 
@@ -88,6 +101,15 @@ builder.Services.AddResponseCompression(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Add health checks
+builder.Services.AddHealthChecks()
+    .AddCheck<KevinMain.API.HealthChecks.StravaHealthCheck>(
+        "strava_api",
+        tags: new[] { "external", "api" })
+    .AddCheck<KevinMain.API.HealthChecks.SmtpHealthCheck>(
+        "smtp_server",
+        tags: new[] { "external", "email" });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -96,17 +118,58 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// Add security headers
+app.UseSecurityHeaders();
+
+// Apply IP rate limiting middleware
+app.UseIpRateLimiting();
+
 app.UseCors("AllowVueApp");
 
 app.UseResponseCompression();
 
-app.UseHttpsRedirection();
+// HTTPS redirection for production
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseStaticFiles(); // Enable serving static files from wwwroot
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Map health check endpoints
+// Basic endpoint for Azure Container Apps health probes
+app.MapHealthChecks("/health");
+
+// Detailed endpoint with full health check information
+app.MapHealthChecks("/health/detailed", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var result = System.Text.Json.JsonSerializer.Serialize(new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(e => new
+            {
+                name = e.Key,
+                status = e.Value.Status.ToString(),
+                description = e.Value.Description,
+                duration = e.Value.Duration.TotalMilliseconds,
+                tags = e.Value.Tags
+            }),
+            totalDuration = report.TotalDuration.TotalMilliseconds
+        }, new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        await context.Response.WriteAsync(result);
+    }
+});
 
 // Eagerly initialize CV cache on startup to avoid cold start delays
 // This pre-populates the in-memory cache before the first request
@@ -130,3 +193,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+// Make the implicit Program class public so integration tests can reference it
+public partial class Program { }
