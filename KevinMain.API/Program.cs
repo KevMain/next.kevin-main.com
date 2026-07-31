@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMemoryCache();
 
 // Configure IP rate limiting
+builder.Services.AddHttpContextAccessor(); // required by AspNetCoreRateLimit
 builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
 builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
@@ -121,10 +122,12 @@ if (app.Environment.IsDevelopment())
 // Add security headers
 app.UseSecurityHeaders();
 
+// CORS must run before rate limiting so throttled (429) responses
+// still carry CORS headers and aren't blocked by browsers
+app.UseCors("AllowVueApp");
+
 // Apply IP rate limiting middleware
 app.UseIpRateLimiting();
-
-app.UseCors("AllowVueApp");
 
 app.UseResponseCompression();
 
@@ -141,8 +144,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Map health check endpoints
-// Basic endpoint for Azure Container Apps health probes
-app.MapHealthChecks("/health");
+// Basic liveness endpoint for Azure Container Apps probes.
+// Excludes checks tagged "external" (Strava/SMTP) so a temporarily
+// unavailable dependency can't cause unnecessary container restarts.
+app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = registration => !registration.Tags.Contains("external")
+});
 
 // Detailed endpoint with full health check information
 app.MapHealthChecks("/health/detailed", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
