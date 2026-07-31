@@ -130,7 +130,7 @@ public class CachedCVDataServiceTests : IDisposable
 
         // Act - 10 concurrent requests
         var tasks = Enumerable.Range(0, 10)
-            .Select(_ => Task.Run(() => _sut.GetCVDataAsync()))
+            .Select(_ => _sut.GetCVDataAsync())
             .ToArray();
 
         var results = await Task.WhenAll(tasks);
