@@ -123,13 +123,16 @@ if (app.Environment.IsDevelopment())
 // Add security headers
 app.UseSecurityHeaders();
 
-// Resolve the real client IP from X-Forwarded-For set by the Azure Container
-// Apps ingress proxy. Only enabled outside Development: locally there is no
-// trusted proxy, so honoring forwarded headers would let clients spoof their
-// IP/scheme and undermine rate limiting. ForwardLimit=1 means only the
-// nearest (ingress-appended) entry is trusted, not arbitrary client-supplied
-// chains. RealIpHeader is deliberately set to an inert header name in
-// appsettings.json so the spoofable X-Real-IP header is never consulted.
+// Resolve the real client IP from X-Forwarded-For set by a trusted reverse
+// proxy. Only enabled outside Development, and only when trust is explicitly
+// configured. Trust options (appsettings "ForwardedHeaders" section):
+//   "KnownProxies":  ["10.0.0.4"]        - exact proxy IPs to trust
+//   "KnownNetworks": ["10.0.0.0/16"]     - CIDR ranges to trust
+//   "TrustAllProxies": true              - trust any upstream (only safe when
+//                                          the app is not directly reachable,
+//                                          e.g. locked behind ACA ingress)
+// If nothing is configured, forwarded headers are ignored entirely and the
+// socket IP is used - fail-safe against IP/scheme spoofing.
 if (!app.Environment.IsDevelopment())
 {
     var forwardedHeadersOptions = new ForwardedHeadersOptions
@@ -137,10 +140,36 @@ if (!app.Environment.IsDevelopment())
         ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
         ForwardLimit = 1
     };
-    // All production traffic reaches this app via the ACA ingress; accept its forwarded headers
-    forwardedHeadersOptions.KnownNetworks.Clear();
+    // Remove loopback-only defaults; trust is granted explicitly below
+    forwardedHeadersOptions.KnownIPNetworks.Clear();
     forwardedHeadersOptions.KnownProxies.Clear();
-    app.UseForwardedHeaders(forwardedHeadersOptions);
+
+    var knownProxies = app.Configuration.GetSection("ForwardedHeaders:KnownProxies").Get<string[]>() ?? [];
+    foreach (var proxy in knownProxies)
+    {
+        forwardedHeadersOptions.KnownProxies.Add(System.Net.IPAddress.Parse(proxy));
+    }
+
+    var knownNetworks = app.Configuration.GetSection("ForwardedHeaders:KnownNetworks").Get<string[]>() ?? [];
+    foreach (var network in knownNetworks)
+    {
+        forwardedHeadersOptions.KnownIPNetworks.Add(System.Net.IPNetwork.Parse(network));
+    }
+
+    var trustAllProxies = app.Configuration.GetValue<bool>("ForwardedHeaders:TrustAllProxies");
+
+    if (knownProxies.Length > 0 || knownNetworks.Length > 0 || trustAllProxies)
+    {
+        // With empty Known* lists, the middleware accepts headers from any
+        // upstream - only reached when TrustAllProxies is explicitly enabled
+        app.UseForwardedHeaders(forwardedHeadersOptions);
+    }
+    else
+    {
+        app.Logger.LogWarning(
+            "No trusted proxies configured (ForwardedHeaders section); " +
+            "forwarded headers are disabled and the socket IP will be used for rate limiting");
+    }
 }
 
 // CORS must run before rate limiting so throttled (429) responses
