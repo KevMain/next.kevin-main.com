@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="KevinMain.API.Tests/KevinMain.API.Tests.csproj" />
   <Project Path="KevinMain.API/KevinMain.API.csproj" />
 </Solution>
