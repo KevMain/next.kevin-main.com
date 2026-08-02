@@ -32,6 +32,13 @@ public class ApiTestFactory : WebApplicationFactory<Program>
             // Use the logging contact service so tests never send real email
             services.AddScoped<KevinMain.API.Services.IContactService,
                 KevinMain.API.Services.LoggingContactService>();
+
+            // Force Strava off and pin the in-memory running service so tests
+            // are deterministic and never call the real Strava API, regardless
+            // of what appsettings configure at startup
+            services.AddSingleton(new KevinMain.API.Models.StravaSettings { Enabled = false });
+            services.AddSingleton<KevinMain.API.Services.IRunningService,
+                KevinMain.API.Services.InMemoryRunningService>();
         });
     }
 }
