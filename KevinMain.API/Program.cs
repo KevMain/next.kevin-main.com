@@ -128,9 +128,6 @@ app.UseSecurityHeaders();
 // configured. Trust options (appsettings "ForwardedHeaders" section):
 //   "KnownProxies":  ["10.0.0.4"]        - exact proxy IPs to trust
 //   "KnownNetworks": ["10.0.0.0/16"]     - CIDR ranges to trust
-//   "TrustAllProxies": true              - trust any upstream (only safe when
-//                                          the app is not directly reachable,
-//                                          e.g. locked behind ACA ingress)
 // If nothing is configured, forwarded headers are ignored entirely and the
 // socket IP is used - fail-safe against IP/scheme spoofing.
 if (!app.Environment.IsDevelopment())
@@ -156,12 +153,8 @@ if (!app.Environment.IsDevelopment())
         forwardedHeadersOptions.KnownIPNetworks.Add(System.Net.IPNetwork.Parse(network));
     }
 
-    var trustAllProxies = app.Configuration.GetValue<bool>("ForwardedHeaders:TrustAllProxies");
-
-    if (knownProxies.Length > 0 || knownNetworks.Length > 0 || trustAllProxies)
+    if (knownProxies.Length > 0 || knownNetworks.Length > 0)
     {
-        // With empty Known* lists, the middleware accepts headers from any
-        // upstream - only reached when TrustAllProxies is explicitly enabled
         app.UseForwardedHeaders(forwardedHeadersOptions);
     }
     else
