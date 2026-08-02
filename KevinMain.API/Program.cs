@@ -124,18 +124,24 @@ if (app.Environment.IsDevelopment())
 app.UseSecurityHeaders();
 
 // Resolve the real client IP from X-Forwarded-For set by the Azure Container
-// Apps ingress proxy. ACA ingress overwrites client-supplied forwarded headers,
-// so trusting it here is safe; the resulting Connection.RemoteIpAddress is what
-// rate limiting uses (RealIpHeader is deliberately set to an inert header name
-// in appsettings.json so the spoofable X-Real-IP header is never consulted).
-var forwardedHeadersOptions = new ForwardedHeadersOptions
+// Apps ingress proxy. Only enabled outside Development: locally there is no
+// trusted proxy, so honoring forwarded headers would let clients spoof their
+// IP/scheme and undermine rate limiting. ForwardLimit=1 means only the
+// nearest (ingress-appended) entry is trusted, not arbitrary client-supplied
+// chains. RealIpHeader is deliberately set to an inert header name in
+// appsettings.json so the spoofable X-Real-IP header is never consulted.
+if (!app.Environment.IsDevelopment())
 {
-    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-};
-// All traffic reaches this app via the ACA ingress; accept its forwarded headers
-forwardedHeadersOptions.KnownNetworks.Clear();
-forwardedHeadersOptions.KnownProxies.Clear();
-app.UseForwardedHeaders(forwardedHeadersOptions);
+    var forwardedHeadersOptions = new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+        ForwardLimit = 1
+    };
+    // All production traffic reaches this app via the ACA ingress; accept its forwarded headers
+    forwardedHeadersOptions.KnownNetworks.Clear();
+    forwardedHeadersOptions.KnownProxies.Clear();
+    app.UseForwardedHeaders(forwardedHeadersOptions);
+}
 
 // CORS must run before rate limiting so throttled (429) responses
 // still carry CORS headers and aren't blocked by browsers
@@ -167,7 +173,9 @@ app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks
     Predicate = registration => !registration.Tags.Contains("external")
 });
 
-// Detailed endpoint with full health check information
+// Detailed endpoint with full health check information.
+// Descriptions of "external" checks are redacted because they can contain
+// infrastructure details (e.g. SMTP host/port); full messages remain in logs.
 app.MapHealthChecks("/health/detailed", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
 {
     ResponseWriter = async (context, report) =>
@@ -180,7 +188,7 @@ app.MapHealthChecks("/health/detailed", new Microsoft.AspNetCore.Diagnostics.Hea
             {
                 name = e.Key,
                 status = e.Value.Status.ToString(),
-                description = e.Value.Description,
+                description = e.Value.Tags.Contains("external") ? null : e.Value.Description,
                 duration = e.Value.Duration.TotalMilliseconds,
                 tags = e.Value.Tags
             }),

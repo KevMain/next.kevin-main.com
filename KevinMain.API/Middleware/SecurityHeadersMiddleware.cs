@@ -36,7 +36,7 @@ public class SecurityHeadersMiddleware
             // Content-Security-Policy: Restrict resource loading
             headers["Content-Security-Policy"] =
                 "default-src 'self'; " +
-                "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+                "script-src 'self'; " +
                 "style-src 'self'; " +
                 "img-src 'self' data: https:; " +
                 "font-src 'self' data:; " +
