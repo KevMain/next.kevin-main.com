@@ -1,7 +1,22 @@
 using KevinMain.API.Models;
 using KevinMain.API.Services;
+using AspNetCoreRateLimit;
+using KevinMain.API.Middleware;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add memory cache for rate limiting
+builder.Services.AddMemoryCache();
+
+// Configure IP rate limiting
+builder.Services.AddHttpContextAccessor(); // required by AspNetCoreRateLimit
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddInMemoryRateLimiting();
 
 // Get CORS origins from configuration
 var corsOrigins = builder.Configuration.GetSection("CorsOrigins").Get<string[]>() 
@@ -88,6 +103,15 @@ builder.Services.AddResponseCompression(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Add health checks
+builder.Services.AddHealthChecks()
+    .AddCheck<KevinMain.API.HealthChecks.StravaHealthCheck>(
+        "strava_api",
+        tags: new[] { "external", "api" })
+    .AddCheck<KevinMain.API.HealthChecks.SmtpHealthCheck>(
+        "smtp_server",
+        tags: new[] { "external", "email" });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -96,17 +120,109 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// Add security headers
+app.UseSecurityHeaders();
+
+// Resolve the real client IP from X-Forwarded-For set by a trusted reverse
+// proxy. Only enabled outside Development, and only when trust is explicitly
+// configured. Trust options (appsettings "ForwardedHeaders" section):
+//   "KnownProxies":  ["10.0.0.4"]        - exact proxy IPs to trust
+//   "KnownNetworks": ["10.0.0.0/16"]     - CIDR ranges to trust
+// If nothing is configured, forwarded headers are ignored entirely and the
+// socket IP is used - fail-safe against IP/scheme spoofing.
+if (!app.Environment.IsDevelopment())
+{
+    var forwardedHeadersOptions = new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+        ForwardLimit = 1
+    };
+    // Remove loopback-only defaults; trust is granted explicitly below
+    forwardedHeadersOptions.KnownIPNetworks.Clear();
+    forwardedHeadersOptions.KnownProxies.Clear();
+
+    var knownProxies = app.Configuration.GetSection("ForwardedHeaders:KnownProxies").Get<string[]>() ?? [];
+    foreach (var proxy in knownProxies)
+    {
+        forwardedHeadersOptions.KnownProxies.Add(System.Net.IPAddress.Parse(proxy));
+    }
+
+    var knownNetworks = app.Configuration.GetSection("ForwardedHeaders:KnownNetworks").Get<string[]>() ?? [];
+    foreach (var network in knownNetworks)
+    {
+        forwardedHeadersOptions.KnownIPNetworks.Add(System.Net.IPNetwork.Parse(network));
+    }
+
+    if (knownProxies.Length > 0 || knownNetworks.Length > 0)
+    {
+        app.UseForwardedHeaders(forwardedHeadersOptions);
+    }
+    else
+    {
+        app.Logger.LogWarning(
+            "No trusted proxies configured (ForwardedHeaders section); " +
+            "forwarded headers are disabled and the socket IP will be used for rate limiting");
+    }
+}
+
+// CORS must run before rate limiting so throttled (429) responses
+// still carry CORS headers and aren't blocked by browsers
 app.UseCors("AllowVueApp");
+
+// Apply IP rate limiting middleware
+app.UseIpRateLimiting();
 
 app.UseResponseCompression();
 
-app.UseHttpsRedirection();
+// HTTPS redirection for production
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseStaticFiles(); // Enable serving static files from wwwroot
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Map health check endpoints
+// Basic liveness endpoint for Azure Container Apps probes.
+// Excludes checks tagged "external" (Strava/SMTP) so a temporarily
+// unavailable dependency can't cause unnecessary container restarts.
+app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = registration => !registration.Tags.Contains("external")
+});
+
+// Detailed endpoint with full health check information.
+// Descriptions of "external" checks are redacted because they can contain
+// infrastructure details (e.g. SMTP host/port); full messages remain in logs.
+app.MapHealthChecks("/health/detailed", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var result = System.Text.Json.JsonSerializer.Serialize(new
+        {
+            status = report.Status.ToString(),
+            checks = report.Entries.Select(e => new
+            {
+                name = e.Key,
+                status = e.Value.Status.ToString(),
+                description = e.Value.Tags.Contains("external") ? null : e.Value.Description,
+                duration = e.Value.Duration.TotalMilliseconds,
+                tags = e.Value.Tags
+            }),
+            totalDuration = report.TotalDuration.TotalMilliseconds
+        }, new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        await context.Response.WriteAsync(result);
+    }
+});
 
 // Eagerly initialize CV cache on startup to avoid cold start delays
 // This pre-populates the in-memory cache before the first request
@@ -130,3 +246,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+// Make the implicit Program class public so integration tests can reference it
+public partial class Program { }
