@@ -40,6 +40,9 @@ builder.Services.AddSingleton<ICVDataService>(sp =>
 // Register Services data service
 builder.Services.AddSingleton<IServiceDataService, InMemoryServiceDataService>();
 
+// Register blog post repository (in-memory, singleton so posts persist for app lifetime)
+builder.Services.AddSingleton<IBlogPostRepository, InMemoryBlogPostRepository>();
+
 // Configure Strava settings from appsettings.json
 var stravaSettings = builder.Configuration.GetSection("StravaSettings").Get<StravaSettings>() ?? new StravaSettings();
 builder.Services.AddSingleton(stravaSettings);
