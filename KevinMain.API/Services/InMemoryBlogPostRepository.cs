@@ -26,6 +26,8 @@ public class InMemoryBlogPostRepository : IBlogPostRepository
 
     public Task<BlogPost?> GetBySlugAsync(string slug)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(slug);
+
         _posts.TryGetValue(slug, out var post);
         return Task.FromResult(post);
     }

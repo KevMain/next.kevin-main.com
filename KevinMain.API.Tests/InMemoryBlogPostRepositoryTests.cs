@@ -63,6 +63,18 @@ public class InMemoryBlogPostRepositoryTests
         Assert.Null(result);
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public async Task GetBySlugAsync_NullOrWhitespaceSlug_Throws(string? slug)
+    {
+        var repository = new InMemoryBlogPostRepository();
+
+        await Assert.ThrowsAnyAsync<ArgumentException>(
+            () => repository.GetBySlugAsync(slug!));
+    }
+
     [Fact]
     public async Task ListPublishedAsync_ReturnsOnlyPublishedPosts()
     {
