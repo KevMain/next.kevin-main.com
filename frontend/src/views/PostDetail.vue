@@ -9,11 +9,20 @@
       </div>
       <div class="container">
         <div class="hero-content">
-          <template v-if="post">
+          <template v-if="loading">
+            <h1 class="page-title">Loading&hellip;</h1>
+          </template>
+          <template v-else-if="post">
             <h1 class="page-title">{{ post.title }}</h1>
             <time class="post-date" :datetime="post.publishedAt">
               {{ formatDate(post.publishedAt) }}
             </time>
+          </template>
+          <template v-else-if="error">
+            <h1 class="page-title">Something Went Wrong</h1>
+            <p class="page-subtitle">
+              Sorry, we couldn't load this post right now. Please try again later.
+            </p>
           </template>
           <template v-else>
             <h1 class="page-title">Post Not Found</h1>
@@ -41,19 +50,57 @@
 
 <script>
 import { marked } from 'marked'
-import { getPostBySlug } from '../data/mockPosts.js'
+import config from '@/config.js'
 
 export default {
   name: 'PostDetail',
+  data() {
+    return {
+      post: null,
+      loading: true,
+      error: ''
+    }
+  },
   computed: {
-    post() {
-      return getPostBySlug(this.$route.params.slug)
-    },
     renderedContent() {
       return this.post ? marked.parse(this.post.content) : ''
     }
   },
+  async mounted() {
+    await this.fetchPost();
+  },
+  watch: {
+    '$route.params.slug'(newSlug) {
+      if (newSlug) {
+        this.fetchPost();
+      }
+    }
+  },
   methods: {
+    async fetchPost() {
+      try {
+        this.loading = true;
+        this.error = '';
+        this.post = null;
+        const slug = this.$route.params.slug;
+        const response = await fetch(`${config.apiBaseUrl}/api/blog/${encodeURIComponent(slug)}`);
+
+        if (response.status === 404) {
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error('Failed to load blog post');
+        }
+
+        this.post = await response.json();
+      } catch (err) {
+        this.error = 'Error loading blog post: ' + err.message;
+        console.error('Error:', err);
+      } finally {
+        this.loading = false;
+      }
+    },
     formatDate(isoString) {
       return new Date(isoString).toLocaleDateString('en-GB', {
         day: 'numeric',

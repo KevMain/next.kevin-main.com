@@ -20,7 +20,16 @@
     <!-- Posts List -->
     <section class="blog-section">
       <div class="container">
-        <div class="posts-list">
+        <div v-if="loading" class="status-message">
+          <p>Loading posts...</p>
+        </div>
+        <div v-else-if="error" class="status-message">
+          <p class="error">{{ error }}</p>
+        </div>
+        <div v-else-if="posts.length === 0" class="status-message">
+          <p>No posts have been published yet.</p>
+        </div>
+        <div v-else class="posts-list">
           <article v-for="post in posts" :key="post.id" class="post-card">
             <h2 class="post-title">
               <router-link :to="'/post/' + post.slug" class="post-link">
@@ -30,7 +39,7 @@
             <time class="post-date" :datetime="post.publishedAt">
               {{ formatDate(post.publishedAt) }}
             </time>
-            <p class="post-preview">{{ post.contentPreview }}</p>
+            <p class="post-preview">{{ contentPreview(post) }}</p>
           </article>
         </div>
       </div>
@@ -39,16 +48,48 @@
 </template>
 
 <script>
-import { getPosts } from '../data/mockPosts.js'
+import config from '@/config.js'
 
 export default {
   name: 'Blog',
   data() {
     return {
-      posts: getPosts()
+      posts: [],
+      loading: true,
+      error: ''
     }
   },
+  async mounted() {
+    await this.fetchPosts();
+  },
   methods: {
+    async fetchPosts() {
+      try {
+        this.loading = true;
+        this.error = '';
+        const response = await fetch(`${config.apiBaseUrl}/api/blog`);
+
+        if (!response.ok) {
+          throw new Error('Failed to load blog posts');
+        }
+
+        this.posts = await response.json();
+      } catch (err) {
+        this.error = 'Error loading blog posts: ' + err.message;
+        console.error('Error:', err);
+      } finally {
+        this.loading = false;
+      }
+    },
+    contentPreview(post) {
+      const plain = post.content
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/^>\s+/gm, '')
+        .replace(/[*_`]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      return plain.length > 200 ? plain.slice(0, 200).trimEnd() + '…' : plain;
+    },
     formatDate(isoString) {
       return new Date(isoString).toLocaleDateString('en-GB', {
         day: 'numeric',
@@ -183,6 +224,18 @@ export default {
 /* Posts Section */
 .blog-section {
   padding: 60px 0;
+}
+
+.status-message {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 0;
+  font-size: 1.1rem;
+}
+
+.status-message .error {
+  color: #f87171;
 }
 
 .posts-list {
