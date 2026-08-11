@@ -1,6 +1,6 @@
 const _mockPosts = [
   {
-    id: crypto.randomUUID(),
+    id: 'getting-started-with-dotnet-10',
     title: 'Getting Started with .NET 10',
     slug: 'getting-started-with-dotnet-10',
     contentPreview: 'A look at the newest features in .NET 10 and how to start building modern, high-performance applications with the latest tooling.',
@@ -12,7 +12,7 @@ Getting started is as simple as installing the latest SDK, updating your target 
     publishedAt: new Date().toISOString()
   },
   {
-    id: crypto.randomUUID(),
+    id: 'building-resilient-cloud-architectures-on-azure',
     title: 'Building Resilient Cloud Architectures on Azure',
     slug: 'building-resilient-cloud-architectures-on-azure',
     contentPreview: 'Practical patterns for designing fault-tolerant, scalable systems in Azure, from retry policies to multi-region deployments.',
