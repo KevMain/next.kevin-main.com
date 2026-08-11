@@ -9,25 +9,36 @@ namespace KevinMain.API.Controllers;
 public class BlogController : ControllerBase
 {
     private readonly IBlogPostRepository _repository;
+    private readonly IWebHostEnvironment _environment;
     private readonly ILogger<BlogController> _logger;
 
-    public BlogController(IBlogPostRepository repository, ILogger<BlogController> logger)
+    public BlogController(IBlogPostRepository repository, IWebHostEnvironment environment, ILogger<BlogController> logger)
     {
         _repository = repository;
+        _environment = environment;
         _logger = logger;
     }
 
     /// <summary>
-    /// Create a new blog post
+    /// Create a new blog post. Only available in the Development environment.
     /// </summary>
     /// <param name="request">The blog post data</param>
     /// <returns>The created blog post</returns>
     [HttpPost]
     [ProducesResponseType(typeof(BlogPost), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> CreatePost([FromBody] CreateBlogPostRequest request)
     {
+        // Unauthenticated write endpoint - restricted to Development so it cannot be
+        // used to create arbitrary posts (or grow the in-memory store) in production.
+        if (!_environment.IsDevelopment())
+        {
+            _logger.LogWarning("Blocked blog post creation attempt outside Development environment");
+            return NotFound();
+        }
+
         var post = new BlogPost
         {
             Id = Guid.NewGuid(),
