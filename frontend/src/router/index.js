@@ -5,6 +5,7 @@ import Services from '../views/Services.vue'
 import Projects from '../views/Projects.vue'
 import Contact from '../views/Contact.vue'
 import Running from '../views/Running.vue'
+import Blog from '../views/Blog.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/running',
     name: 'Running',
     component: Running
+  },
+  {
+    path: '/blog',
+    name: 'Blog',
+    component: Blog
   }
 ]
 
