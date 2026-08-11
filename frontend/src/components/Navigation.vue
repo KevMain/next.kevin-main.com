@@ -14,6 +14,7 @@
         <router-link to="/projects" class="nav-link" @click="closeMobileMenu">Projects</router-link>
         <router-link to="/contact" class="nav-link" @click="closeMobileMenu">Contact</router-link>
         <router-link to="/running" class="nav-link" @click="closeMobileMenu">Running</router-link>
+        <router-link to="/blog" class="nav-link" @click="closeMobileMenu">Blog</router-link>
       </div>
 
       <button class="mobile-menu-toggle" @click="toggleMobileMenu" aria-label="Toggle menu">

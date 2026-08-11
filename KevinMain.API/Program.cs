@@ -40,6 +40,9 @@ builder.Services.AddSingleton<ICVDataService>(sp =>
 // Register Services data service
 builder.Services.AddSingleton<IServiceDataService, InMemoryServiceDataService>();
 
+// Register blog post repository (in-memory, singleton so posts persist for app lifetime)
+builder.Services.AddSingleton<IBlogPostRepository, InMemoryBlogPostRepository>();
+
 // Configure Strava settings from appsettings.json
 var stravaSettings = builder.Configuration.GetSection("StravaSettings").Get<StravaSettings>() ?? new StravaSettings();
 builder.Services.AddSingleton(stravaSettings);
@@ -94,6 +97,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "KevinMain API v1");
+    });
 }
 
 app.UseCors("AllowVueApp");
