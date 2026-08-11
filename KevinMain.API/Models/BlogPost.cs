@@ -11,7 +11,11 @@ public class BlogPost
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
-    public DateTime PublishedAt { get; set; }
+
+    /// <summary>
+    /// When the post was published. Null for drafts (IsPublished = false).
+    /// </summary>
+    public DateTime? PublishedAt { get; set; }
     public bool IsPublished { get; set; }
 }
 

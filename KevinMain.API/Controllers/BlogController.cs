@@ -34,7 +34,7 @@ public class BlogController : ControllerBase
             Title = request.Title,
             Slug = request.Slug,
             Content = request.Content,
-            PublishedAt = DateTime.UtcNow,
+            PublishedAt = request.IsPublished ? DateTime.UtcNow : null,
             IsPublished = request.IsPublished
         };
 

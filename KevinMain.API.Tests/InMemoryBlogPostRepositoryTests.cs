@@ -11,7 +11,7 @@ public class InMemoryBlogPostRepositoryTests
         Title = $"Title for {slug}",
         Slug = slug,
         Content = "Some content",
-        PublishedAt = publishedAt ?? DateTime.UtcNow,
+        PublishedAt = isPublished ? (publishedAt ?? DateTime.UtcNow) : null,
         IsPublished = isPublished
     };
 
@@ -87,6 +87,7 @@ public class InMemoryBlogPostRepositoryTests
 
         Assert.Equal(2, result.Count);
         Assert.All(result, p => Assert.True(p.IsPublished));
+        Assert.All(result, p => Assert.NotNull(p.PublishedAt));
         Assert.DoesNotContain(result, p => p.Slug == "draft-one");
     }
 
