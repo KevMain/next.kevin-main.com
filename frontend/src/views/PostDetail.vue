@@ -29,9 +29,7 @@
     <section class="post-section">
       <div class="container">
         <article v-if="post" class="post-content-card">
-          <p v-for="(paragraph, index) in paragraphs" :key="index" class="post-paragraph">
-            {{ paragraph }}
-          </p>
+          <div class="post-content" v-html="renderedContent"></div>
         </article>
         <div class="back-link-wrap">
           <router-link to="/blog" class="back-link">&larr; Back to Blog</router-link>
@@ -42,6 +40,7 @@
 </template>
 
 <script>
+import { marked } from 'marked'
 import { getPostBySlug } from '../data/mockPosts.js'
 
 export default {
@@ -50,10 +49,8 @@ export default {
     post() {
       return getPostBySlug(this.$route.params.slug)
     },
-    paragraphs() {
-      return this.post
-        ? this.post.content.split('\n\n').filter(p => p.trim().length > 0)
-        : []
+    renderedContent() {
+      return this.post ? marked.parse(this.post.content) : ''
     }
   },
   methods: {
@@ -215,7 +212,7 @@ export default {
     0 30px 60px rgba(0,0,0,0.2);
 }
 
-.post-paragraph {
+.post-content :deep(p) {
   color: #94a3b8;
   line-height: 1.9;
   font-size: 1.1rem;
@@ -223,8 +220,71 @@ export default {
   margin: 0 0 24px;
 }
 
-.post-paragraph:last-child {
+.post-content :deep(p:last-child) {
   margin-bottom: 0;
+}
+
+.post-content :deep(h2) {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #e0e7ff;
+  margin: 40px 0 16px;
+}
+
+.post-content :deep(h3) {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #e0e7ff;
+  margin: 32px 0 12px;
+}
+
+.post-content :deep(ul),
+.post-content :deep(ol) {
+  color: #94a3b8;
+  line-height: 1.9;
+  font-size: 1.1rem;
+  font-weight: 300;
+  margin: 0 0 24px;
+  padding-left: 28px;
+}
+
+.post-content :deep(li) {
+  margin-bottom: 6px;
+}
+
+.post-content :deep(li::marker) {
+  color: #0ea5e9;
+}
+
+.post-content :deep(blockquote) {
+  margin: 0 0 24px;
+  padding: 16px 24px;
+  border-left: 3px solid #0ea5e9;
+  border-radius: 0 12px 12px 0;
+  background: rgba(14, 165, 233, 0.08);
+}
+
+.post-content :deep(blockquote p) {
+  margin: 0;
+  color: #cbd5e1;
+  font-style: italic;
+}
+
+.post-content :deep(strong) {
+  color: #e0e7ff;
+  font-weight: 600;
+}
+
+.post-content :deep(code) {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.95em;
+  color: #00f5ff;
+  background: rgba(14, 165, 233, 0.1);
+  padding: 2px 6px;
+  border-radius: 6px;
 }
 
 .back-link-wrap {
