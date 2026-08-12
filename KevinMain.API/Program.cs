@@ -134,6 +134,34 @@ using (var scope = app.Services.CreateScope())
     {
         logger.LogWarning(ex, "Failed to pre-load CV cache on startup - will load on first request");
     }
+
+    // Seed initial blog posts so published content is available in all environments.
+    // Each post is seeded independently so one bad post cannot prevent the rest from loading,
+    // and failures are logged as errors because there is no lazy fallback for blog content.
+    var blogRepository = scope.ServiceProvider.GetRequiredService<IBlogPostRepository>();
+    var seedPosts = BlogPostSeedData.GetPosts();
+    var seededCount = 0;
+    foreach (var post in seedPosts)
+    {
+        try
+        {
+            await blogRepository.AddAsync(post);
+            seededCount++;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to seed blog post {Slug} on startup", post.Slug);
+        }
+    }
+
+    if (seededCount == 0 && seedPosts.Count > 0)
+    {
+        logger.LogError("No blog posts were seeded on startup - the blog will appear empty");
+    }
+    else
+    {
+        logger.LogInformation("Seeded {SeededCount} of {TotalCount} blog posts on startup", seededCount, seedPosts.Count);
+    }
 }
 
 app.Run();

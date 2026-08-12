@@ -71,7 +71,7 @@ public class BlogController : ControllerBase
     public async Task<IActionResult> GetBySlug(string slug)
     {
         var post = await _repository.GetBySlugAsync(slug);
-        return post is null ? NotFound() : Ok(post);
+        return post is null || !post.IsPublished ? NotFound() : Ok(post);
     }
 
     /// <summary>

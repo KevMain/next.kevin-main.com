@@ -1,10 +1,23 @@
-const _mockPosts = [
-  {
-    id: 'ai-for-dotnet-developers-copilot-is-more-than-better-autocomplete',
-    title: 'AI for .NET Developers: Copilot Is More Than Better Autocomplete',
-    slug: 'ai-for-dotnet-developers-copilot-is-more-than-better-autocomplete',
-    contentPreview: "I've been writing C# and .NET professionally for a long time, so when I first started using AI tools such as GitHub Copilot, I wasn't entirely sure what they were going to add.",
-    content: `I've been writing C# and .NET professionally for a long time, so when I first started using AI tools such as GitHub Copilot, I wasn't entirely sure what they were going to add.
+using KevinMain.API.Models;
+
+namespace KevinMain.API.Services;
+
+/// <summary>
+/// Provides the initial blog post content seeded into the repository at startup.
+/// </summary>
+public static class BlogPostSeedData
+{
+    public static IReadOnlyList<BlogPost> GetPosts() =>
+    [
+        new BlogPost
+        {
+            Id = Guid.Parse("7f1c8a4e-3b2d-4f6a-9c5e-1d8b2a7e4f30"),
+            Title = "AI for .NET Developers: Copilot Is More Than Better Autocomplete",
+            Slug = "ai-for-dotnet-developers-copilot-is-more-than-better-autocomplete",
+            IsPublished = true,
+            PublishedAt = new DateTime(2026, 8, 11, 9, 0, 0, DateTimeKind.Utc),
+            Content = """
+I've been writing C# and .NET professionally for a long time, so when I first started using AI tools such as GitHub Copilot, I wasn't entirely sure what they were going to add.
 
 I don't really need help writing a foreach loop or creating another ASP.NET Core controller.
 
@@ -106,15 +119,8 @@ Of course it can.
 
 What's more useful is whether it can help me understand something faster, spot something I've missed or challenge a decision before it reaches production.
 
-How are you using AI with .NET? Has Copilot genuinely changed how you work, or is it still mostly clever autocomplete?`,
-    publishedAt: new Date().toISOString()
-  }
-];
-
-export function getPosts() {
-  return _mockPosts;
-}
-
-export function getPostBySlug(slug) {
-  return _mockPosts.find(post => post.slug === slug) ?? null;
+How are you using AI with .NET? Has Copilot genuinely changed how you work, or is it still mostly clever autocomplete?
+"""
+        }
+    ];
 }
