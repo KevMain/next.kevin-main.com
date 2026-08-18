@@ -5,7 +5,7 @@
   <!-- Homepage -->
   <url>
 	<loc>https://www.kevin-main.com/</loc>
-	<lastmod>2025-01-01</lastmod>
+	<lastmod>2026-08-18</lastmod>
 	<changefreq>weekly</changefreq>
 	<priority>1.0</priority>
   </url>
@@ -13,7 +13,7 @@
   <!-- CV Page -->
   <url>
 	<loc>https://www.kevin-main.com/cv</loc>
-	<lastmod>2025-01-01</lastmod>
+	<lastmod>2026-08-18</lastmod>
 	<changefreq>monthly</changefreq>
 	<priority>0.9</priority>
   </url>
@@ -21,7 +21,7 @@
   <!-- Services Page -->
   <url>
 	<loc>https://www.kevin-main.com/services</loc>
-	<lastmod>2025-01-19</lastmod>
+	<lastmod>2026-08-18</lastmod>
 	<changefreq>monthly</changefreq>
 	<priority>0.9</priority>
   </url>
@@ -29,7 +29,7 @@
   <!-- Projects Page -->
   <url>
 	<loc>https://www.kevin-main.com/projects</loc>
-	<lastmod>2025-01-01</lastmod>
+	<lastmod>2026-08-18</lastmod>
 	<changefreq>monthly</changefreq>
 	<priority>0.8</priority>
   </url>
@@ -37,7 +37,7 @@
   <!-- Contact Page -->
   <url>
 	<loc>https://www.kevin-main.com/contact</loc>
-	<lastmod>2025-01-01</lastmod>
+	<lastmod>2026-08-18</lastmod>
 	<changefreq>yearly</changefreq>
 	<priority>0.7</priority>
   </url>
@@ -45,9 +45,17 @@
   <!-- Running Page -->
   <url>
 	<loc>https://www.kevin-main.com/running</loc>
-	<lastmod>2025-01-01</lastmod>
+	<lastmod>2026-08-18</lastmod>
 	<changefreq>weekly</changefreq>
 	<priority>0.5</priority>
+  </url>
+
+  <!-- Blog Page -->
+  <url>
+	<loc>https://www.kevin-main.com/blog</loc>
+	<lastmod>2026-08-18</lastmod>
+	<changefreq>weekly</changefreq>
+	<priority>0.8</priority>
   </url>
 
 </urlset>
