@@ -57,10 +57,11 @@ services.AddAutoMapper();</pre>
           />
         </div>
         <h1 class="hero-title">Kevin Main</h1>
-        <p class="hero-subtitle">Lead Web Developer in Cheshire | AI & Cloud Architect | Tech Innovator</p>
+        <p class="hero-subtitle">Senior .NET Software Engineer & Technical Lead</p>
         <p class="hero-description">
-          Professional web developer based in Cheshire, crafting elegant solutions with over 20 years of experience in full-stack development, 
-          cloud architecture, AI integration, and team leadership. Serving clients across Cheshire and the North West.
+          Over 20 years' experience building business-critical software with C# and .NET, combining hands-on 
+          engineering with software architecture, technical leadership and modern Azure development.
+          Based in Cheshire, UK.
         </p>
         <div class="hero-buttons">
           <router-link to="/cv" class="btn-primary">View CV</router-link>
@@ -72,7 +73,7 @@ services.AddAutoMapper();</pre>
         <div class="code-block">
           <span class="code-line"><span class="keyword">const</span> developer = {</span>
           <span class="code-line">  name: <span class="string">"Kevin Main"</span>,</span>
-          <span class="code-line">  role: <span class="string">"Lead Developer"</span>,</span>
+          <span class="code-line">  role: <span class="string">"Senior .NET Engineer"</span>,</span>
           <span class="code-line">  skills: [<span class="string">".NET"</span>, <span class="string">"Azure"</span>, <span class="string">"AI/ML"</span>],</span>
           <span class="code-line">  passion: <span class="string">"Building Amazing Software"</span></span>
           <span class="code-line">};</span>
@@ -96,32 +97,22 @@ services.AddAutoMapper();</pre>
       </div>
     </section>
 
-    <!-- Location Section -->
-    <section class="location-section">
-      <div class="location-content">
-        <h2 class="section-title">Web Developer Based in Cheshire</h2>
-        <p class="location-description">
-          As a professional web developer based in Cheshire, I provide high-quality software development services 
-          to businesses across the region and throughout the North West of England. With deep expertise in modern 
-          web technologies including .NET, Azure, and Vue.js, I deliver scalable, reliable, and innovative solutions 
-          tailored to your business needs.
+    <!-- Specialism Section -->
+    <section class="specialism-section">
+      <div class="specialism-content">
+        <h2 class="section-title">Building Better Software — and Better Engineering Teams</h2>
+        <p class="specialism-description">
+          I specialise in C# and .NET engineering, from ASP.NET Core APIs and SQL Server through to 
+          cloud-native services running on Microsoft Azure. My focus is on well-architected, maintainable 
+          software — designed with security, testing and long-term delivery in mind. 
+          <router-link to="/projects" class="inline-link">See some of my recent software engineering projects</router-link>.
         </p>
-        <p class="location-description">
-          Whether you're a startup in Chester, a growing business in Warrington, or an enterprise in Manchester, 
-          I bring over 20 years of professional development experience to help transform your digital presence 
-          and drive your business forward.
+        <p class="specialism-description">
+          As a technical lead, I help teams deliver better software through mentoring, code review and 
+          strong engineering standards — increasingly combined with AI-assisted development using tools 
+          like GitHub Copilot. <router-link to="/blog" class="inline-link">Read about how I use AI in .NET development</router-link>, 
+          or <router-link to="/cv" class="inline-link">view my full CV</router-link>.
         </p>
-        <div class="service-areas">
-          <h3>Service Areas</h3>
-          <ul>
-            <li>Chester & Cheshire West</li>
-            <li>Warrington & Cheshire East</li>
-            <li>Manchester & Greater Manchester</li>
-            <li>Liverpool & Merseyside</li>
-            <li>North West England</li>
-            <li>Remote work across the UK</li>
-          </ul>
-        </div>
       </div>
     </section>
 
@@ -131,28 +122,28 @@ services.AddAutoMapper();</pre>
       <div class="expertise-grid">
         <div class="expertise-card">
           <div class="expertise-icon">💻</div>
-          <h3>Full-Stack Development</h3>
-          <p>.NET Core, ASP.NET, Vue.js, React, Angular - building scalable applications from database to UI</p>
+          <h3>.NET & C# Engineering</h3>
+          <p>C#, .NET, ASP.NET Core, REST APIs and SQL Server — test-driven development with xUnit</p>
         </div>
         <div class="expertise-card">
           <div class="expertise-icon">☁️</div>
-          <h3>Cloud Architecture</h3>
-          <p>Azure expertise in designing, deploying, and optimizing cloud-native solutions</p>
-        </div>
-        <div class="expertise-card highlight-card">
-          <div class="expertise-icon">🤖</div>
-          <h3>AI & Machine Learning</h3>
-          <p>Azure OpenAI, GitHub Copilot, AI-assisted development, prompt engineering, and LLM integration for modern software solutions</p>
-        </div>
-        <div class="expertise-card">
-          <div class="expertise-icon">👥</div>
-          <h3>Team Leadership</h3>
-          <p>Leading development teams through the full software lifecycle with agile methodologies</p>
+          <h3>Cloud & Azure</h3>
+          <p>Azure Container Apps, Azure SQL, cloud-native services and CI/CD pipelines</p>
         </div>
         <div class="expertise-card">
           <div class="expertise-icon">🎯</div>
           <h3>Software Architecture</h3>
-          <p>SOLID principles, DRY, TDD, IoC, and design patterns for maintainable code</p>
+          <p>APIs, microservices, SOLID principles, design patterns and security-first design</p>
+        </div>
+        <div class="expertise-card">
+          <div class="expertise-icon">👥</div>
+          <h3>Technical Leadership</h3>
+          <p>Mentoring, code review, delivery management and engineering standards</p>
+        </div>
+        <div class="expertise-card highlight-card">
+          <div class="expertise-icon">🤖</div>
+          <h3>AI-assisted Development</h3>
+          <p>GitHub Copilot, implementation planning, AI-assisted testing and code review</p>
         </div>
       </div>
     </section>
@@ -550,8 +541,8 @@ export default {
   letter-spacing: 0.5px;
 }
 
-/* Location Section */
-.location-section {
+/* Specialism Section */
+.specialism-section {
   padding: 80px 40px;
   max-width: 1200px;
   margin: 40px auto;
@@ -563,17 +554,17 @@ export default {
   border: 1px solid rgba(14, 165, 233, 0.2);
 }
 
-.location-content {
+.specialism-content {
   text-align: center;
 }
 
-.location-section .section-title {
+.specialism-section .section-title {
   text-align: center;
   font-size: 2.5rem;
   margin-bottom: 30px;
 }
 
-.location-description {
+.specialism-description {
   color: #cbd5e1;
   font-size: 1.15rem;
   line-height: 1.8;
@@ -585,45 +576,16 @@ export default {
   margin-right: auto;
 }
 
-.service-areas {
-  margin-top: 40px;
-  padding: 30px;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.service-areas h3 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.5rem;
-  color: #e0e7ff;
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-.service-areas ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-}
-
-.service-areas li {
-  color: #94a3b8;
-  font-size: 1.05rem;
-  padding: 12px 20px;
-  background: rgba(14, 165, 233, 0.08);
-  border-radius: 8px;
-  border-left: 3px solid #0ea5e9;
+.inline-link {
+  color: #0ea5e9;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(14, 165, 233, 0.4);
   transition: all 0.3s ease;
 }
 
-.service-areas li:hover {
-  background: rgba(14, 165, 233, 0.15);
-  transform: translateX(5px);
-  border-left-color: #a855f7;
+.inline-link:hover {
+  color: #a855f7;
+  border-bottom-color: #a855f7;
 }
 
 /* Expertise Section */
@@ -759,22 +721,18 @@ export default {
     text-align: center;
   }
 
-  .location-section {
+  .specialism-section {
     padding: 60px 20px;
     margin-left: 20px;
     margin-right: 20px;
   }
 
-  .location-section .section-title {
+  .specialism-section .section-title {
     font-size: 2rem;
   }
 
-  .location-description {
+  .specialism-description {
     font-size: 1.05rem;
-  }
-
-  .service-areas ul {
-    grid-template-columns: 1fr;
   }
 }
 
