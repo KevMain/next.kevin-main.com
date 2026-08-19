@@ -33,6 +33,8 @@ public class CachedBlogPostRepository : IBlogPostRepository
     {
         var created = await _inner.AddAsync(post);
 
+        ArgumentException.ThrowIfNullOrWhiteSpace(created.Slug);
+
         // Write succeeded → invalidate the individual post (clears any negative
         // entry for this slug) and the published list.
         await InvalidateAsync([created.Slug], CancellationToken.None);
@@ -42,6 +44,8 @@ public class CachedBlogPostRepository : IBlogPostRepository
 
     public async Task<BlogPost?> GetBySlugAsync(string slug)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(slug);
+
         var key = PostKey(slug);
 
         var post = await _cache.GetOrCreateAsync<BlogPost?>(

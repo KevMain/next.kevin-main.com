@@ -133,4 +133,16 @@ public class CachedBlogPostRepositoryTests
         Assert.Equal(2, inner.GetBySlugCalls);
         Assert.Equal(2, inner.ListPublishedCalls);
     }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public async Task GetBySlug_NullOrWhitespaceSlug_ThrowsWithoutHittingInnerRepository(string? slug)
+    {
+        var (cached, inner) = CreateSut();
+
+        await Assert.ThrowsAnyAsync<ArgumentException>(() => cached.GetBySlugAsync(slug!));
+        Assert.Equal(0, inner.GetBySlugCalls);
+    }
 }
