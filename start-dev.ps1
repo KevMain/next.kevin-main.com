@@ -43,6 +43,53 @@ if (-not (Test-Path $nodeModulesPath)) {
 	Write-Host ""
 }
 
+# Ensure Azurite storage emulator is running (required for blog Table Storage)
+function Test-AzuriteRunning {
+	return Test-NetConnection 127.0.0.1 -Port 10002 -InformationLevel Quiet -WarningAction SilentlyContinue
+}
+
+if (Test-AzuriteRunning) {
+	Write-Host "Azurite already running on port 10002." -ForegroundColor Green
+} else {
+	# Prefer azurite on PATH, otherwise use the copy bundled with Visual Studio
+	$azurite = (Get-Command azurite -ErrorAction SilentlyContinue).Source
+	if (-not $azurite) {
+		$vsRoots = @(
+			"$env:ProgramFiles\Microsoft Visual Studio",
+			"${env:ProgramFiles(x86)}\Microsoft Visual Studio"
+		) | Where-Object { $_ -and (Test-Path $_) }
+
+		foreach ($vsRoot in $vsRoots) {
+			$azurite = Get-ChildItem $vsRoot -Recurse -Filter azurite.exe -ErrorAction SilentlyContinue |
+				Select-Object -First 1 -ExpandProperty FullName
+			if ($azurite) { break }
+		}
+	}
+
+	if (-not $azurite) {
+		Write-Host "ERROR: Azurite not found" -ForegroundColor Red
+		Write-Host "Install it with 'npm install -g azurite' or install the Visual Studio ASP.NET workload." -ForegroundColor Yellow
+		exit 1
+	}
+
+	$azuriteDataDir = Join-Path $env:TEMP "azurite-kevinmain"
+	New-Item -ItemType Directory -Path $azuriteDataDir -Force | Out-Null
+
+	Write-Host "Starting Azurite storage emulator..." -ForegroundColor Cyan
+	Start-Process -FilePath $azurite -ArgumentList '--silent', '--location', $azuriteDataDir, '--skipApiVersionCheck' -WindowStyle Hidden
+
+	$deadline = (Get-Date).AddSeconds(15)
+	while (-not (Test-AzuriteRunning)) {
+		if ((Get-Date) -gt $deadline) {
+			Write-Host "ERROR: Azurite did not start listening on port 10002 within 15 seconds." -ForegroundColor Red
+			exit 1
+		}
+		Start-Sleep -Milliseconds 500
+	}
+	Write-Host "Azurite is listening on port 10002." -ForegroundColor Green
+	Write-Host ""
+}
+
 # Start Backend API
 Write-Host "Starting .NET API Backend (https://localhost:5001)..." -ForegroundColor Cyan
 $backendPath = Join-Path $rootDir "KevinMain.API"
@@ -73,6 +120,7 @@ Write-Host "======================================" -ForegroundColor Green
 Write-Host ""
 Write-Host "  Backend API:  https://localhost:5001" -ForegroundColor Cyan
 Write-Host "  Frontend:     https://localhost:5173" -ForegroundColor Cyan
+Write-Host "  Azurite:      http://127.0.0.1:10002 (tables)" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Press Ctrl+C to stop all servers" -ForegroundColor Yellow
 Write-Host ""
