@@ -1,11 +1,12 @@
 using System.Collections.Concurrent;
 using KevinMain.API.Models;
+using KevinMain.API.Services;
 
-namespace KevinMain.API.Services;
+namespace KevinMain.API.Tests;
 
 /// <summary>
-/// In-memory blog post repository backed by a ConcurrentDictionary keyed by slug.
-/// Registered as a singleton so posts persist for the lifetime of the application.
+/// In-memory blog post repository used as a test double. Production uses
+/// TableStorageBlogPostRepository (Azure Table Storage) wrapped in a caching decorator.
 /// </summary>
 public class InMemoryBlogPostRepository : IBlogPostRepository
 {
