@@ -52,8 +52,9 @@ builder.Services
     .ValidateDataAnnotations()
     .Validate(s => builder.Environment.IsDevelopment()
             ? !string.IsNullOrWhiteSpace(s.ConnectionString)
-            : !string.IsNullOrWhiteSpace(s.ServiceUri),
-        "BlogStorage requires ConnectionString in Development or ServiceUri otherwise.")
+            : Uri.TryCreate(s.ServiceUri, UriKind.Absolute, out var serviceUri)
+                && serviceUri.Scheme == Uri.UriSchemeHttps,
+        "BlogStorage requires ConnectionString in Development or an absolute https ServiceUri otherwise.")
     .ValidateOnStart();
 
 builder.Services
