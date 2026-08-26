@@ -1,5 +1,9 @@
+using Azure.Data.Tables;
+using Azure.Identity;
 using KevinMain.API.Models;
 using KevinMain.API.Services;
+using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,8 +44,64 @@ builder.Services.AddSingleton<ICVDataService>(sp =>
 // Register Services data service
 builder.Services.AddSingleton<IServiceDataService, InMemoryServiceDataService>();
 
-// Register blog post repository (in-memory, singleton so posts persist for app lifetime)
-builder.Services.AddSingleton<IBlogPostRepository, InMemoryBlogPostRepository>();
+// Site settings used for server-rendered pages (canonical URLs, JSON-LD).
+builder.Services
+    .AddOptions<SiteSettings>()
+    .BindConfiguration("Site")
+    .ValidateDataAnnotations()
+    .Validate(s => Uri.TryCreate(s.BaseUrl, UriKind.Absolute, out var baseUri)
+            && (baseUri.Scheme == Uri.UriSchemeHttps || baseUri.Scheme == Uri.UriSchemeHttp),
+        "Site:BaseUrl must be an absolute http(s) URL.")
+    .ValidateOnStart();
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<SiteSettings>>().Value);
+
+// Blog storage configuration - validated at startup so a misconfigured deployment
+// fails fast with a clear message instead of at first request.
+builder.Services
+    .AddOptions<BlogStorageSettings>()
+    .BindConfiguration("BlogStorage")
+    .ValidateDataAnnotations()
+    .Validate(s => builder.Environment.IsDevelopment()
+            ? !string.IsNullOrWhiteSpace(s.ConnectionString)
+            : Uri.TryCreate(s.ServiceUri, UriKind.Absolute, out var serviceUri)
+                && serviceUri.Scheme == Uri.UriSchemeHttps,
+        "BlogStorage requires ConnectionString in Development or an absolute https ServiceUri otherwise.")
+    .ValidateOnStart();
+
+builder.Services
+    .AddOptions<BlogCacheSettings>()
+    .BindConfiguration("BlogCache")
+    .Validate(s => s.PostDuration > TimeSpan.Zero
+            && s.PublishedListDuration > TimeSpan.Zero
+            && s.NotFoundDuration > TimeSpan.Zero,
+        "BlogCache durations must all be positive.")
+    .ValidateOnStart();
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<BlogCacheSettings>>().Value);
+
+// TableClient construction is owned here so repositories stay free of Azure/config concerns.
+// Development uses the Azurite connection string; other environments use the table service
+// URI with a managed identity (ManagedIdentityCredential rather than DefaultAzureCredential:
+// deterministic, no silent credential-chain fall-through).
+// NOTE: assumes a system-assigned identity. If switching to a user-assigned identity,
+// add its client ID to configuration and pass it to ManagedIdentityCredential.
+builder.Services.AddSingleton(sp =>
+{
+    var storage = sp.GetRequiredService<IOptions<BlogStorageSettings>>().Value;
+
+    return builder.Environment.IsDevelopment()
+        ? new TableClient(storage.ConnectionString, storage.TableName)
+        : new TableClient(new Uri(storage.ServiceUri), storage.TableName, new ManagedIdentityCredential());
+});
+
+builder.Services.AddHybridCache();
+
+// Register blog post repository: Table Storage inner implementation wrapped in a
+// HybridCache decorator (posts change infrequently, so reads are served from cache).
+builder.Services.AddSingleton<TableStorageBlogPostRepository>();
+builder.Services.AddSingleton<IBlogPostRepository>(sp => new CachedBlogPostRepository(
+    sp.GetRequiredService<TableStorageBlogPostRepository>(),
+    sp.GetRequiredService<HybridCache>(),
+    sp.GetRequiredService<BlogCacheSettings>()));
 
 // Configure Strava settings from appsettings.json
 var stravaSettings = builder.Configuration.GetSection("StravaSettings").Get<StravaSettings>() ?? new StravaSettings();
@@ -81,6 +141,10 @@ builder.Services.AddControllers()
         // Optimize JSON serialization for performance
         options.JsonSerializerOptions.DefaultBufferSize = 16384; // 16KB buffer
     });
+
+// Razor view support for the server-rendered blog article pages (Views/BlogPages).
+// API controllers are unaffected; only BlogPagesController returns views.
+builder.Services.AddControllersWithViews();
 
 // Add response compression for better API performance
 builder.Services.AddResponseCompression(options =>
@@ -135,12 +199,20 @@ using (var scope = app.Services.CreateScope())
         logger.LogWarning(ex, "Failed to pre-load CV cache on startup - will load on first request");
     }
 
+    // In Development the Azurite table is created at startup; in other environments
+    // the table is provisioned by deployment/IaC (see README) so no setup happens here.
+    if (app.Environment.IsDevelopment())
+    {
+        var tableClient = scope.ServiceProvider.GetRequiredService<TableClient>();
+        await tableClient.CreateIfNotExistsAsync();
+    }
+
     // Seed initial blog posts so published content is available in all environments.
-    // Each post is seeded independently so one bad post cannot prevent the rest from loading,
-    // and failures are logged as errors because there is no lazy fallback for blog content.
+    // Storage is persistent, so posts that already exist are an expected, non-error outcome.
     var blogRepository = scope.ServiceProvider.GetRequiredService<IBlogPostRepository>();
     var seedPosts = BlogPostSeedData.GetPosts();
     var seededCount = 0;
+    var existingCount = 0;
     foreach (var post in seedPosts)
     {
         try
@@ -148,20 +220,31 @@ using (var scope = app.Services.CreateScope())
             await blogRepository.AddAsync(post);
             seededCount++;
         }
+        catch (InvalidOperationException)
+        {
+            // Post already exists in storage from a previous run.
+            existingCount++;
+        }
         catch (Exception ex)
         {
             logger.LogError(ex, "Failed to seed blog post {Slug} on startup", post.Slug);
         }
     }
 
-    if (seededCount == 0 && seedPosts.Count > 0)
+    if (seededCount + existingCount == 0 && seedPosts.Count > 0)
     {
         logger.LogError("No blog posts were seeded on startup - the blog will appear empty");
     }
     else
     {
-        logger.LogInformation("Seeded {SeededCount} of {TotalCount} blog posts on startup", seededCount, seedPosts.Count);
+        logger.LogInformation("Blog posts on startup: {SeededCount} seeded, {ExistingCount} already present, of {TotalCount} total",
+            seededCount, existingCount, seedPosts.Count);
     }
 }
 
 app.Run();
+
+/// <summary>
+/// Exposes the implicit Program class to WebApplicationFactory-based integration tests.
+/// </summary>
+public partial class Program { }

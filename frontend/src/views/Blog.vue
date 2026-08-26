@@ -32,9 +32,9 @@
         <div v-else class="posts-list">
           <article v-for="post in posts" :key="post.id" class="post-card">
             <h2 class="post-title">
-              <router-link :to="'/post/' + post.slug" class="post-link">
+              <a :href="'/blog/' + post.slug" class="post-link">
                 {{ post.title }}
-              </router-link>
+              </a>
             </h2>
             <time class="post-date" :datetime="post.publishedAt">
               {{ formatDate(post.publishedAt) }}

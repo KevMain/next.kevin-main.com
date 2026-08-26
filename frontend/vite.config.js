@@ -7,7 +7,20 @@ export default defineConfig({
   plugins: [vue(), basicSsl()],
   server: {
     port: 5173,
-    https: true
+    https: true,
+    proxy: {
+      // The server owns article pages and legacy redirects; /blog itself stays in the SPA.
+      '^/blog/.+': {
+        target: 'https://localhost:5001',
+        changeOrigin: true,
+        secure: false
+      },
+      '^/post/.+': {
+        target: 'https://localhost:5001',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   },
   resolve: {
     alias: {

@@ -6,7 +6,6 @@ import Projects from '../views/Projects.vue'
 import Contact from '../views/Contact.vue'
 import Running from '../views/Running.vue'
 import Blog from '../views/Blog.vue'
-import PostDetail from '../views/PostDetail.vue'
 
 const routes = [
   {
@@ -69,15 +68,6 @@ const routes = [
     component: Blog,
     meta: {
       title: 'Blog — .NET, Azure & AI-assisted Development | Kevin Main',
-      description: 'Articles by Kevin Main on C#, .NET, Azure, software architecture and AI-assisted development.'
-    }
-  },
-  {
-    path: '/post/:slug',
-    name: 'PostDetail',
-    component: PostDetail,
-    meta: {
-      title: 'Blog | Kevin Main — Senior .NET Software Engineer',
       description: 'Articles by Kevin Main on C#, .NET, Azure, software architecture and AI-assisted development.'
     }
   }
