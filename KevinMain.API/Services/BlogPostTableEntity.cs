@@ -23,7 +23,9 @@ public class BlogPostTableEntity : ITableEntity
     public string Title { get; set; } = string.Empty;
     public string Slug { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
-    public DateTime? PublishedAt { get; set; }
+    public DateTimeOffset? PublishedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
+    public string MetaDescription { get; set; } = string.Empty;
     public bool IsPublished { get; set; }
 
     public static string NormalizeSlug(string slug) => slug.ToLowerInvariant();
@@ -37,6 +39,8 @@ public class BlogPostTableEntity : ITableEntity
         Slug = post.Slug,
         Content = post.Content,
         PublishedAt = post.PublishedAt?.ToUniversalTime(),
+        UpdatedAt = post.UpdatedAt?.ToUniversalTime(),
+        MetaDescription = post.MetaDescription,
         IsPublished = post.IsPublished
     };
 
@@ -47,6 +51,8 @@ public class BlogPostTableEntity : ITableEntity
         Slug = Slug,
         Content = Content,
         PublishedAt = PublishedAt,
+        UpdatedAt = UpdatedAt,
+        MetaDescription = MetaDescription,
         IsPublished = IsPublished
     };
 }

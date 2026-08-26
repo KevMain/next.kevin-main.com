@@ -15,7 +15,17 @@ public class BlogPost
     /// <summary>
     /// When the post was published. Null for drafts (IsPublished = false).
     /// </summary>
-    public DateTime? PublishedAt { get; set; }
+    public DateTimeOffset? PublishedAt { get; set; }
+
+    /// <summary>
+    /// When the post content was last updated. Null if never updated after publishing.
+    /// </summary>
+    public DateTimeOffset? UpdatedAt { get; set; }
+
+    /// <summary>
+    /// Short summary used for the meta description and structured data.
+    /// </summary>
+    public string MetaDescription { get; set; } = string.Empty;
     public bool IsPublished { get; set; }
 }
 
@@ -35,6 +45,9 @@ public class CreateBlogPostRequest
 
     [Required]
     public string Content { get; set; } = string.Empty;
+
+    [StringLength(300)]
+    public string? MetaDescription { get; set; }
 
     public bool IsPublished { get; set; }
 }

@@ -44,6 +44,17 @@ builder.Services.AddSingleton<ICVDataService>(sp =>
 // Register Services data service
 builder.Services.AddSingleton<IServiceDataService, InMemoryServiceDataService>();
 
+// Site settings used for server-rendered pages (canonical URLs, JSON-LD).
+builder.Services
+    .AddOptions<SiteSettings>()
+    .BindConfiguration("Site")
+    .ValidateDataAnnotations()
+    .Validate(s => Uri.TryCreate(s.BaseUrl, UriKind.Absolute, out var baseUri)
+            && (baseUri.Scheme == Uri.UriSchemeHttps || baseUri.Scheme == Uri.UriSchemeHttp),
+        "Site:BaseUrl must be an absolute http(s) URL.")
+    .ValidateOnStart();
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<SiteSettings>>().Value);
+
 // Blog storage configuration - validated at startup so a misconfigured deployment
 // fails fast with a clear message instead of at first request.
 builder.Services
@@ -130,6 +141,10 @@ builder.Services.AddControllers()
         // Optimize JSON serialization for performance
         options.JsonSerializerOptions.DefaultBufferSize = 16384; // 16KB buffer
     });
+
+// Razor view support for the server-rendered blog article pages (Views/BlogPages).
+// API controllers are unaffected; only BlogPagesController returns views.
+builder.Services.AddControllersWithViews();
 
 // Add response compression for better API performance
 builder.Services.AddResponseCompression(options =>
@@ -228,3 +243,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.Run();
+
+/// <summary>
+/// Exposes the implicit Program class to WebApplicationFactory-based integration tests.
+/// </summary>
+public partial class Program { }

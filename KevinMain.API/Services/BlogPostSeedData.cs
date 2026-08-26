@@ -15,7 +15,8 @@ public static class BlogPostSeedData
             Title = "AI for .NET Developers: Copilot Is More Than Better Autocomplete",
             Slug = "ai-for-dotnet-developers-copilot-is-more-than-better-autocomplete",
             IsPublished = true,
-            PublishedAt = new DateTime(2026, 8, 11, 9, 0, 0, DateTimeKind.Utc),
+            PublishedAt = new DateTimeOffset(2026, 8, 11, 9, 0, 0, TimeSpan.Zero),
+            MetaDescription = "GitHub Copilot is more than better autocomplete. How an experienced .NET developer uses AI to review code, find missing tests, challenge decisions and investigate bugs.",
             Content = """
 I've been writing C# and .NET professionally for a long time, so when I first started using AI tools such as GitHub Copilot, I wasn't entirely sure what they were going to add.
 
