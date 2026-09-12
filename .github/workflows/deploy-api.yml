@@ -80,13 +80,13 @@ jobs:
             "StravaSettings__ClientSecret=${{ secrets.STRAVA_CLIENT_SECRET }}" \
             "StravaSettings__RefreshToken=${{ secrets.STRAVA_REFRESH_TOKEN }}"
 
-    - name: Configure Scaling - Keep 1 Instance Always Running
+    - name: Configure Scaling - Scale to Zero When Idle
       run: |
         az containerapp update \
           --name ${{ env.CONTAINER_APP_NAME }} \
           --resource-group ${{ env.AZURE_RESOURCE_GROUP }} \
-          --min-replicas 1 \
-          --max-replicas 10
+          --min-replicas 0 \
+          --max-replicas 2
 
     - name: Azure logout
       run: az logout
